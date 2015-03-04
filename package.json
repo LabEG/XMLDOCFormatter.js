@@ -1,0 +1,24 @@
+{
+  "name": "XMLDOC-Formatter",
+  "version": "0.0.1",
+  "description": "Formatting All like XML style documents. Includes: HTML, PHP, JSP and many others.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "prettity",
+    "formatter",
+    "xml",
+    "html",
+    "php"
+  ],
+  "author": "LabEG",
+  "license": "ISC",
+  "devDependencies": {
+    "uglify-js": "^2.4.16"
+  }
+}
