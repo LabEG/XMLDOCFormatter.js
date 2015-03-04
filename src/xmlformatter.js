@@ -44,7 +44,8 @@
         while(!endOfParsing){
             
             //tag without paire.
-            if (foundMatch = data.match(regexpXMLTagWithoutPaier)){
+            foundMatch = data.match(regexpXMLTagWithoutPaier)
+            if (foundMatch){
                 data = data.substring(foundMatch[0].length, data.length);
                 
                 tabs = "";
@@ -58,7 +59,8 @@
             }
             
             //not paired html tags. Example: meta, link.
-            if (foundMatch = data.match(regexpHTMLNotPairedTags)){
+            foundMatch = data.match(regexpHTMLNotPairedTags)
+            if (foundMatch){
                 data = data.substring(foundMatch[0].length, data.length);
                 
                 tabs = "";
@@ -72,7 +74,8 @@
             }
             
             //open tags
-            if (foundMatch = data.match(regexpXMLTagOpen)){
+            foundMatch = data.match(regexpXMLTagOpen)
+            if (foundMatch){
                 data = data.substring(foundMatch[0].length, data.length);
                 
                 tabs = "";
@@ -87,7 +90,8 @@
             }
             
             //close tags
-            if (foundMatch = data.match(regexpXMLTagClose)){
+            foundMatch = data.match(regexpXMLTagClose)
+            if (foundMatch){
                 data = data.substring(foundMatch[0].length, data.length);
                 
                 level -= 1;
@@ -102,7 +106,8 @@
             }
             
             //simple text
-            if (foundMatch = data.match(regexpSimpleText)){
+            foundMatch = data.match(regexpSimpleText)
+            if (foundMatch){
                 data = data.substring(foundMatch[0].length, data.length);
                 
                 tabs = "";
@@ -116,7 +121,8 @@
             }
             
             //html comment
-            if (foundMatch = data.match(regexpHTMLComment)){
+            foundMatch = data.match(regexpHTMLComment)
+            if (foundMatch){
                 data = data.substring(foundMatch[0].length, data.length);
                 
                 tabs = "";
@@ -130,7 +136,8 @@
             }
             
             //html spec tags, example <!Doctype html>
-            if (foundMatch = data.match(regexpHTMLSpecTag)){
+            foundMatch = data.match(regexpHTMLSpecTag)
+            if (foundMatch){
                 data = data.substring(foundMatch[0].length, data.length);
                 
                 tabs = "";
