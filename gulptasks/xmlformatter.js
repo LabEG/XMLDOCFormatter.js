@@ -19,6 +19,10 @@
         './src/web/xmlformatter.js'
     ];
     
+    var nodejs = [
+        './src/web/xmlformatter.js'
+    ];
+    
     gulp.task('web-cs', function () {
         gulp.src('./src/**/*.js')
                 .pipe(jshint())
@@ -33,9 +37,18 @@
                 .pipe(rename({suffix: ".min"}))
                 .pipe(gulp.dest('./build/web/'));
     });
+    
+    gulp.task('node-js', function () {
+        gulp.src(webjs)
+                .pipe(concat('xmlformatter.js'))
+                .pipe(gulp.dest('./build/nodejs/'))
+                .pipe(uglify())
+                .pipe(rename({suffix: ".min"}))
+                .pipe(gulp.dest('./build/nodejs/'));
+    });
 
     gulp.task('watch', function () {
-        gulp.watch('./src/**/*.js', ['web-js']);
+        gulp.watch('./src/**/*.js', ['web-js', 'node-js']);
     });
 
 }());
