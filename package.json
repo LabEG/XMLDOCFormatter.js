@@ -19,6 +19,12 @@
   "author": "LabEG",
   "license": "ISC",
   "devDependencies": {
-    "uglify-js": "^2.4.16"
+    "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.2",
+    "gulp-jshint": "^1.9.2",
+    "gulp-jslint-simple": "^1.0.0",
+    "gulp-rename": "^1.2.0",
+    "gulp-uglify": "^1.1.0",
+    "require-dir": "^0.1.0"
   }
 }

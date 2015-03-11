@@ -4,4 +4,15 @@
  * and open the template in the editor.
  */
 
+(function () {
+    "use strict";
+    var gulp = require('gulp');
 
+    var requireDir = require('require-dir');
+    var dir = requireDir('./gulptasks');
+
+    gulp.task('release', ['web-js']);
+
+    gulp.task('default', ['release']);
+
+}());
