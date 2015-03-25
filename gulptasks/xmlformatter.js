@@ -16,12 +16,11 @@
     var jslint = require('gulp-jslint-simple');
 
     var webjs = [
-        './src/web/xmlformatter.js'
+        './src/web/xmldocformatter.js'
     ];
     
     var nodejs = [
-        './src/web/xmlformatter.js',
-        './src/nodejs/nodewrapper.js'
+        './src/nodejs/xmldocformatter.js'
     ];
     
     gulp.task('web-cs', function () {
@@ -32,7 +31,7 @@
     
     gulp.task('web-js', function () {
         gulp.src(webjs)
-                .pipe(concat('xmlformatter.js'))
+                .pipe(concat('xmldocformatter.js'))
                 .pipe(gulp.dest('./build/web/'))
                 .pipe(uglify())
                 .pipe(rename({suffix: ".min"}))
@@ -41,7 +40,6 @@
     
     gulp.task('node-js', function () {
         gulp.src(nodejs)
-                .pipe(concat('xmlformatter.js'))
                 .pipe(gulp.dest('./build/nodejs/'))
                 .pipe(uglify())
                 .pipe(rename({suffix: ".min"}))

@@ -9,13 +9,14 @@
 (function(){
     "use strict";    
     
-    var fs = require("fs");
+//    var fs = require("fs");                     
+    var args = require("./arguments.js");
+    var xmldocformatter = require("../web/xmldocformatter.js");
+        
+    console.log('Work: ', args);
     
-    //using
-    var XMLFormatter = LabEG.Lib.XMLFormatter;
-
-    var fileForRead = "/tmp/streamtest.html";
-    var fileForWrite = "/tmp/write.html";
+    var fileForRead = args.source;
+    var fileForWrite = args.oputput;
 
     var fileReadStream = fs.createReadStream(fileForRead, {encoding: 'utf8', autoClose: true, highWaterMark: 4 * 1024});
     var fileWriteStream = fs.createWriteStream(fileForWrite, {encoding: 'utf8', autoClose: true});

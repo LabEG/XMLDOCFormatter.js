@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]>
+
+    <html class="no-js lt-ie9 lt-ie8 lt-ie7" prefix="og: http://ogp.me/ns#">
+
+    <![endif]-->
+
+    <!--[if IE 7]>
+
+        <html class="no-js lt-ie9 lt-ie8" prefix="og: http://ogp.me/ns#">
+
+        <![endif]-->
+
+        <!--[if IE 8]>
+
+            <html class="no-js lt-ie9" prefix="og: http://ogp.me/ns#">
+
+            <![endif]-->
+
+            <!--[if gt IE 8]>
+
+                <!--> <html class="no-js" prefix="og: http://ogp.me/ns#">
+
+_setSiteSpeedSampleRate', 100],undefinedundefined['_trackPageview']undefinedundefined);undefinedundefined
+
+</script>
+
+<!-- Google Analytics setup -->
+
+</head>
+
+<body>
+
+<nav class="masthead">
+
+<a class="brand" href="/">
+
+    CodeWinds
+
+</a>
+
+<a class="nav-toggle">
+
+    Menu
+
+</a>
+
+<div class="nav-collapse">
+
+    <ul>
+
+        <li typeof="sioc:Page" about="/about.html" class="">
+
+            <a href="/about.html" property="dc:title">
+
+                About
+
+            </a>
+
+        </li>
+
+        <li typeof="sioc:Page" about="/video.html" class="">
+
+            <a href="/video.html" property="dc:title">
+
+                Videos
+
+            </a>
+
+        </li>
+
+        <li typeof="sioc:Page" about="/blog.html" class="">
+
+            <a href="/blog.html" property="dc:title">
+
+                Blog
+
+            </a>
+
+        </li>
+
+        <li typeof="sioc:Page" about="/podcast.html" class="">
+
+            <a href="/podcast.html" property="dc:title">
+
+                Podcast
+
+            </a>
+
+        </li>
+
+        <li typeof="sioc:Page" about="/forums.html" class="">
+
+            <a href="/forums.html" property="dc:title">
+
+                Forums
+
+            </a>
+
+        </li>
+
+        <li typeof="sioc:Page" about="/contact.html" class="">
+
+            <a href="/contact.html" property="dc:title">
+
+                Contact
+
+            </a>
+
+        </li>
+
+    </ul>
+
+</div>
+
+</nav>
+
+<div class="container">
+
+<div class="content">
+
+    <!--[if lt IE 9]>
+
+        <p class="chromeframe">
+
+            You are using an 
+
+            <strong>
+
+                outdated
+
+            </strong>
+
+            browser. Please 
+
+            <a href="http://browsehappy.com/">
+
+                upgrade your browser
+
+            </a>
+
+            or 
+
+            <a href="http://www.google.com/chromeframe/?redirect=true">
+
+                activate Google Chrome Frame
+
+            </a>
+
+            to improve your experience.
+
+        </p>
+
+    <![endif]-->
+
+    <section class="main">
+
+        <article id="post" class="post">
+
+            <h1>
+
+                Reading text and binary data with Node.js readable streams
+
+            </h1>
+
+            <div class="postContent">
+
+                <p>
+
+                    This tutorial will explain the use and creation of node.js readable streams:
+
+                </p>
+
+                <div id="toc">
+
+                    <ol>
+
+                        <li>
+
+                            <a href="#consuming_or_using_readable_streams">
+
+                                Consuming or using readable streams
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="#producing_a_readable_stream">
+
+                                Producing a readable stream
+
+                            </a>
+
+                            <ol>
+
+                                <li>
+
+                                    <a href="#using_streams2_with_older_node_js_versions">
+
+                                        Using Streams2 with older Node.js versions
+
+                                    </a>
+
+                                </li>
+
+                            </ol>
+
+                        </li>
+
+                        <li>
+
+                            <a href="#pause_resume_of_stream_and_streams2">
+
+                                Pause / resume of stream and Streams2
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="#object_streams">
+
+                                Object Streams
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="#node_js_readable_streams_are_flexible_and_simple">
+
+                                Node.js readable streams are flexible and simple
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="#for_additional_reading">
+
+                                For additional reading
+
+                            </a>
+
+                        </li>
+
+                    </ol>
+
+                </div>
+
+                <h4 id="version-information">
+
+                    Version Information
+
+                </h4>
+
+                <ul>
+
+                    <li>
+
+                        Author: Jeff Barczewski
+
+                    </li>
+
+                    <li>
+
+                        Published: August 3rd, 2013
+
+                    </li>
+
+                    <li>
+
+                        Tags: nodejs, streams
+
+                    </li>
+
+                    <li>
+
+                        Level: Intermediate
+
+                    </li>
+
+                    <li>
+
+                        Prerequisites: crypto, events, install npm modules
+
+                    </li>
+
+                    <li>
+
+                        Node.js v0.10+ (latest stable is v0.10.15 as of this writing), but streams have generally been a part of Node.js from its early days
+
+                    </li>
+
+                    <li>
+
+                        Streams2 can be used with older versions of node by using npm module readable-stream
+
+                    </li>
+
+                </ul>
+
+                <a name="consuming_or_using_readable_streams">
+
+                </a>
+
+                <h2 id="consuming-or-using-readable-streams">
+
+                    Consuming or using readable streams
+
+                </h2>
+
+                <p>
+
+                    Simple example of reading a file and echoing it to stdout:
+
+                </p>
+
+                <pre class="highlight">
+
+                    <code class="hljs javascript">
+
+                        <span class="hljs-keyword">
+
+                            var
+
+                        </span>
+
+                        fs = 
+
+                        <span class="hljs-built_in">
+
+                            require
+
+                        </span>
+
+                        (
+
+                        <span class="hljs-string">
+
+                            'fs'
+
+                        </span>
+
+                        );undefined
+
+                        <span class="hljs-keyword">
+
+                            var
+
+                        </span>
+
+                        readStream = fs.createReadStream(
+
+                        <span class="hljs-string">
+
+                            'myfile.txt'
+
+                        </span>
+
+                        );undefinedreadStream.pipe(process.stdout);undefined
+
+                    </code>
+
+                </pre>
+
+                <p>
+
+                    Creating a sha1 digest of a file and echoing the result to stdout (similar to shasum):
+
+                </p>
+
+                <pre class="highlight">
+
+                    <code class="hljs javascript">
+
+                        <span class="hljs-keyword">
+
+                            var
+
+                        </span>
+
+                        crypto = 
+
+                        <span class="hljs-built_in">
+
+                            require
+
+                        </span>
+
+                        (
+
+                        <span class="hljs-string">
+
+                            'crypto'
+
+                        </span>
+
+                        );undefined
+
+                        <span class="hljs-keyword">
+
+                            var
+
+                        </span>
+
+                        fs = 
+
+                        <span class="hljs-built_in">
+
+                            require
+
+                        </span>
+
+                        (
+
+span class="hljs-string"
+
+an class="hljs-built_in"
+
+pan
+
+</span>
+
+(
+
+<span class="hljs-keyword">
+
+this
+
+</span>
+
+.index &gt; 
+
+<span class="hljs-keyword">
+
+this
+
+</span>
+
+.lenToCount) {undefinedundefined
+
+<span class="hljs-keyword">
+
+return
+
+</span>
+
+<span class="hljs-keyword">
+
+this
+
+</span>
+
+.push(
+
+<span class="hljs-literal">
+
+null
+
+</span>
+
+); 
+
+<span class="hljs-comment">
+
+// done, return
+
+</span>
+
+}undefinedundefinedundefined
+
+<span class="hljs-comment">
+
+// pushing number, but could be any non-null obj
+
+</span>
+
+<span class="hljs-keyword">
+
+this
+
+</span>
+
+.push(
+
+<span class="hljs-keyword">
+
+this
+
+</span>
+
+.index);undefined};undefinedundefinedundefined
+
+<span class="hljs-comment">
+
+// consume this stream and output to stdout
+
+</span>
+
+<span class="hljs-comment">
+
+// coercing it to a string
+
+</span>
+
+<span class="hljs-keyword">
+
+var
+
+</span>
+
+readStream = 
+
+<span class="hljs-keyword">
+
+new
+
+</span>
+
+CountingObjectStream(
+
+<span class="hljs-number">
+
+10
+
+</span>
+
+);undefinedreadStreamundefinedundefined.on(
+
+<span class="hljs-string">
+
+'readable'
+
+</span>
+
+, 
+
+<span class="hljs-function">
+
+<span class="hljs-keyword">
+
+    function
+
+</span>
+
+<span class="hljs-params">
+
+    ()
+
+</span>
+
+{
+
+</span>
+
+<span class="hljs-keyword">
+
+var
+
+</span>
+
+obj;undefinedundefined
+
+<span class="hljs-keyword">
+
+while
+
+</span>
+
+(
+
+<span class="hljs-literal">
+
+null
+
+</span>
+
+!== (obj = readStream.read())) {undefinedundefinedconsole.log(obj);undefinedundefined}undefinedundefined});undefined
+
+</code>
+
+</pre>
+
+<p>
+
+So you can use objects in streams just as easily as you can use Buffers and strings, but the only limitation is that the objects you pass cannot be 
+
+<code>
+
+null
+
+</code>
+
+since that will indicate that the stream has ended.
+
+</p>
+
+<a name="node_js_readable_streams_are_flexible_and_simple">
+
+</a>
+
+<h2 id="node-js-readable-streams-are-flexible-and-simple">
+
+Node.js readable streams are flexible and simple
+
+</h2>
+
+<p>
+
+Node.js readable streams are easy to consume and even simple to construct. You can not only stream binary and string data but also objects and still take advantage of stream functionality.
+
+</p>
+
+<p>
+
+I hope you enjoyed this quick tour of readable streams, let me know if you have any questions.
+
+</p>
+
+<a name="for_additional_reading">
+
+</a>
+
+<h2 id="for-additional-reading">
+
+For additional reading
+
+</h2>
+
+<ul>
+
+<li>
+
+<a href="http://nodejs.org/api/fs.html" title="Node.js File System API docs">
+
+File System API
+
+</a>
+
+</li>
+
+<li>
+
+<a href="http://nodejs.org/api/crypto.html" title="Node.js Crypto API docs">
+
+Crypto API
+
+</a>
+
+</li>
+
+<li>
+
+<a href="http://nodejs.org/api/stream.html#stream_class_stream_readable" title="Node.js Readable Stream API docs">
+
+Readable
+
+</a>
+
+</li>
+
+<li>
+
+<a href="http://nodejs.org/api/stream.html" title="Node.js Stream API docs">
+
+Stream API
+
+</a>
+
+</li>
+
+<li>
+
+<a href="http://nodejs.org/api/util.html" title="Node.js Util API docs">
+
+Util API
+
+</a>
+
+</li>
+
+</ul>
+
+</div>
+
+</article>
+
+<footer class="relatedPostsFooter">
+
+</footer>
+
+<nav>
+
+<div class="subscribeFeed">
+
+<a class="text" href="/blog-atom.xml">
+
+Blog Feed
+
+</a>
+
+<a class="icon" href="/blog-atom.xml">
+
+<img src="/assets/feed-icon.svg" alt="feed" title="News feed"/>
+
+</a>
+
+</div>
+
+</nav>
+
+</section>
+
+<div id="disqusDivAll">
+
+<div id="disqus_thread">
+
+</div>
+
+<script type="text/javascript">
+
+var disqus_shortname = 'codewinds'; // requiredundefinedundefinedvar disqus_identifier = 'blog-2013-08-04-nodejs-readable-streams';undefinedundefinedvar disqus_title = 'Reading text and binary data with Node.js readable streams';undefinedundefinedvar disqus_url = 'http://codewinds.com/blog/2013-08-04-nodejs-readable-streams.html';undefinedundefinedundefined(function() {undefinedundefinedvar dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;undefinedundefineddsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';undefinedundefined(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);undefinedundefined})();undefinedundefined
+
+</script>
+
+</div>
+
+</div>
+
+</div>
+
+<aside class="sidebar">
+
+<div class="logoAndSlogan">
+
+<div class="logo">
+
+CodeWinds
+
+</div>
+
+<div class="slogan">
+
+Helping web developers to navigate the winds of change
+
+</div>
+
+<img class="sitePhoto" src="/assets/dsc_2003_200px.jpg" alt="Sailboat" title="Navigate the codewinds"/>
+
+</div>
+
+<div class="subscribeForm">
+
+</div>
+
+<section class="miniProfile">
+
+    <div class="photo">
+
+        <img src="/assets/jeff/dsc_7809_crop-200px.jpg" alt="Jeff Barczewski" title="Jeff Barczewski" width="100"/>
+
+    </div>
+
+    <div class="fullName">
+
+        Jeff Barczewski
+
+    </div>
+
+    <div class="role">
+
+        Your CodeWinds host
+
+    </div>
+
+</section>
+
+<nav class="twitter-posts">
+
+</nav>
+
+<nav class="follow">
+
+    <h1>
+
+        Follow me
+
+    </h1>
+
+    <div class="addthis_toolbox addthis_default_style">
+
+        <a href="https://twitter.com/jeffbski" title="Follow me on Twitter">
+
+            <img src="/assets/social-network/twitter-white.png" alt="Twitter"/>
+
+        </a>
+
+        <a href="https://www.facebook.com/jeffbski" title="Follow me on Facebook">
+
+            <img src="/assets/social-network/facebook-white.png" alt="Facebook"/>
+
+        </a>
+
+        <a href="https://www.linkedin.com/in/jeffbski" title="Follow me on LinkedIn">
+
+            <img src="/assets/social-network/linkedin-white.png" alt="LinkedIn"/>
+
+        </a>
+
+        <a href="https://google.com/+JeffBarczewski?rel=author" title="Follow me on Google Plus">
+
+            <img src="/assets/social-network/google-plus-white.png" alt="Google Plus"/>
+
+        </a>
+
+        <a href="https://github.com/jeffbski" title="Follow me on Github">
+
+            <img src="/assets/social-network/github-white.png" alt="Github"/>
+
+        </a>
+
+    </div>
+
+</nav>
+
+<nav class="podcast-sidebar">
+
+    <a href="/podcast.html" title="CodeWinds Podcast - web developer news and training">
+
+        <img src="/assets/codewinds/codewinds-podcast-200.png" alt="CodeWinds Podcast"/>
+
+    </a>
+
+</nav>
+
+<nav class="sharing">
+
+    <h1>
+
+        Share this page
+
+    </h1>
+
+    <div class="sharing_toolbox">
+
+        <a rel="nofollow" class="addthis_button_twitter" addthis:url="http://codewinds.com/blog/2013-08-04-nodejs-readable-streams.html" addthis:title="How to read text and binary data with Node.js readable streams and streams2, how to create a readable Node.js stream - programming tutorial for web developers | CodeWinds" addthis:description="Consuming or using node.js readable streams, producing readable streams, streams2, pause and resume, object streams, using streams2 Readable streams with older versions of node.js" title="Share on Twitter">
+
+            <img src="/assets/social-network/twitter-white.png" alt="Twitter"/>
+
+        </a>
+
+        <a rel="nofollow" class="addthis_button_facebook" addthis:url="http://codewinds.com/blog/2013-08-04-nodejs-readable-streams.html" addthis:title="How to read text and binary data with Node.js readable streams and streams2, how to create a readable Node.js stream - programming tutorial for web developers | CodeWinds" addthis:description="Consuming or using node.js readable streams, producing readable streams, streams2, pause and resume, object streams, using streams2 Readable streams with older versions of node.js" title="Share on Facebook">
+
+            <img src="/assets/social-network/facebook-white.png" alt="Facebook"/>
+
+        </a>
+
+        <a rel="nofollow" class="addthis_button_linkedin" addthis:url="http://codewinds.com/blog/2013-08-04-nodejs-readable-streams.html" addthis:title="How to read text and binary data with Node.js readable streams and streams2, how to create a readable Node.js stream - programming tutorial for web developers | CodeWinds" addthis:description="Consuming or using node.js readable streams, producing readable streams, streams2, pause and resume, object streams, using streams2 Readable streams with older versions of node.js" title="Share on LinkedIn">
+
+            <img src="/assets/social-network/linkedin-white.png" alt="LinkedIn"/>
+
+        </a>
+
+roducing readable streams, streams2, pause and resume, object streams, using streams2 Readable streams with older versions of node.js" title="Share on Google Plus"
+

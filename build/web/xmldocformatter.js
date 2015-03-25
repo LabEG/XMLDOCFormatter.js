@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+/*global module*/
+
 var LabEG = this.LabEG || {};
 LabEG.Lib = LabEG.Lib || {};
 
@@ -70,14 +72,16 @@ if (LabEG.Lib.XMLFormatter) {
         var i = 0; //just iterator
 
         var regexps = {
-            XMLTagOpen: /^<[^!\/].*?>/,
-            XMLTagClose: /^<\/.*?>/,
-            HTMLComment: /^<!--.*?-->/,
-            HTMLNotPairedTags: /^<(meta|link|img|br)[^<>]*?>/,
-            HTMLSpecTag: /^<!.*?>/,
-            XMLTagWithoutPaier: /^<[^<>]*?\/>/,
-            SimpleText: /^[^<>]+/,
-            EmptyTextNode: /^(\r|\n|\r\n|\s)+/
+            XMLTagOpen: /^<[^!\/].*?>/, // <div id="test" class="test">
+            XMLTagClose: /^<\/.*?>/, // </div>
+            HTMLComment: /^<!--[^><]*?-->/, // <!-- comment -->
+            HTMLCommentOpen: /^<!--.*?[^-]{2}>/, // <!--[if lt IE 7]> 
+            HTMLCommentClose: /^<[^<>]*?-->/, // <![endif]-->
+            HTMLSpecTag: /^<![^<>]*?>/, // <!Doctype html>
+            HTMLNotPairedTags: /^<(meta|link|img|br)[^<>]*?>/, //<meta charset="utf-8">
+            XMLTagWithoutPaier: /^<[^<>]*?\/>/, //l ink href="/favicon.ico" />
+            SimpleText: /^[^<>]+/, // just text
+            EmptyTextNode: /^(\r|\n|\r\n|\s)+/ // new lines and spaces
         };
 
         /**
@@ -174,6 +178,7 @@ if (LabEG.Lib.XMLFormatter) {
                 foundMatch = text.match(regexps.SimpleText);
                 if (foundMatch) {
                     text = text.substring(foundMatch[0].length, text.length);
+                    foundMatch[0] = foundMatch[0].replace(/\r|\n|\r\n|\s{2,}/g);
 
                     tabs = "";
                     for (i = 0; i < level; i += 1) {
@@ -200,7 +205,40 @@ if (LabEG.Lib.XMLFormatter) {
                     continue;
                 }
 
-                //html spec tags, example <!Doctype html>
+                //html comment open
+                foundMatch = text.match(regexps.HTMLCommentOpen);
+                if (foundMatch) {
+                    text = text.substring(foundMatch[0].length, text.length);
+
+                    tabs = "";
+                    for (i = 0; i < level; i += 1) {
+                        tabs += self.options.charsForTabs;
+                    }
+                    level += 1;
+
+                    self.onLog(tabs + "HTML comment open: " + foundMatch[0]);
+                    formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;
+                    continue;
+                }
+
+
+                //html comment close
+                foundMatch = text.match(regexps.HTMLCommentClose);
+                if (foundMatch) {
+                    text = text.substring(foundMatch[0].length, text.length);
+
+                    level -= 1;
+                    tabs = "";
+                    for (i = 0; i < level; i += 1) {
+                        tabs += self.options.charsForTabs;
+                    }
+
+                    self.onLog(tabs + "HTML comment close: " + foundMatch[0]);
+                    formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;
+                    continue;
+                }
+
+                //html spec tags
                 foundMatch = text.match(regexps.HTMLSpecTag);
                 if (foundMatch) {
                     text = text.substring(foundMatch[0].length, text.length);
@@ -238,41 +276,9 @@ if (LabEG.Lib.XMLFormatter) {
             return formattedText;
         };
     };
-
-}());
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/* jshint node: true */
-/* global LabEG */
-
-(function(){
-    "use strict";    
     
-    var fs = require("fs");
-    
-    //using
-    var XMLFormatter = LabEG.Lib.XMLFormatter;
-
-    var fileForRead = "/tmp/streamtest.html";
-    var fileForWrite = "/tmp/write.html";
-
-    var fileReadStream = fs.createReadStream(fileForRead, {encoding: 'utf8', autoClose: true, highWaterMark: 4 * 1024});
-    var fileWriteStream = fs.createWriteStream(fileForWrite, {encoding: 'utf8', autoClose: true});
-
-    var xmlformatter = new XMLFormatter();    
-    
-    fileReadStream.on('data', function (data) {
-        console.log("Writing chunk on disk.");
-        fileWriteStream.write(xmlformatter.format(data));        
-    });
-
-    fileReadStream.on('end', function () {
-        console.log('End stream.');
-        fileWriteStream.end();
-    });
-
+    if (module){
+        module.exports = new LabEG.Lib.XMLFormatter();
+    }
     
 }());
