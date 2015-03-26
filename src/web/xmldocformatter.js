@@ -16,6 +16,8 @@ if (LabEG.Lib.XMLFormatter) {
 (function () {
     "use strict";
 
+
+
     /**
      * @description 
      * Library for formatting XML documents, like as XML, HTML, JSP, PHP.
@@ -29,7 +31,7 @@ if (LabEG.Lib.XMLFormatter) {
         var self = this;
 
         this.options = {
-            charsBetweenTags: "\r\n\r\n",
+            charsBetweenTags: "\r\n",
             charsForTabs: "    "
         };
 
@@ -60,7 +62,7 @@ if (LabEG.Lib.XMLFormatter) {
             console.error("XMLFormatter error: ", message);
         };
 
-        var lastString = "";
+        var residueString = "";
 
         var formattedText = "";
         var endOfParsing = false;
@@ -83,17 +85,18 @@ if (LabEG.Lib.XMLFormatter) {
             SimpleText: /^[^<>]+/, // just text
             EmptyTextNode: /^(\r|\n|\r\n|\s)+/ // new lines and spaces
         };
-
+        
         /**
          * @description Method for formatting text
          * @param {string} text Text for formatting.
+         * @param {number} level Begin level of xml structure. Need for tabs.
          * @returns {undefined}
          */
-        this.format = function (text) {
-
+        var formatText = function(text, level){
+            
             formattedText = "";
             endOfParsing = false;
-            level = 0;
+            level = level || 0;
             cycles = 0;
 
             while (!endOfParsing) {
@@ -255,15 +258,15 @@ if (LabEG.Lib.XMLFormatter) {
 
                 if (text.length === 0) {
                     endOfParsing = true;
-                    lastString = "";
+                    residueString = "";
                     self.onLog("Parsing All block complete.");
                     continue;
                 }
 
                 if (text.length > 0) {
-                    lastString = text;
+                    residueString = text;
                     endOfParsing = true;
-                    self.onLog("Parsing All block ended, ending is cached to next cycle.");
+                    self.onError("Parsing All block ended, ending is cached to next cycle.");
                     continue;
                 }
 
@@ -273,7 +276,31 @@ if (LabEG.Lib.XMLFormatter) {
                     this.onWarning("Cycles limit.");
                 }
             }
-            return formattedText;
+            return {
+                formattedText:formattedText,
+                residueString:residueString,
+                level:level
+            };
+        };
+        
+        /**
+         * @description Method for formatting text
+         * @param {string} text Text for formatting.
+         * @param {number} level Begin level of xml structure. Need for tabs.
+         * @returns {undefined}
+         */
+        this.format = function (text, level) {
+            return formatText(text, level || 0).formattedText;
+        };
+        
+        /**
+         * @description Method for formatting stream.
+         * @param {string} text Text for formatting.
+         * @param {number} level Begin level of xml structure. Need for tabs.
+         * @returns {undefined}
+         */
+        this.formatStream = function(text, level){
+            return formatText(text, level || 0);
         };
     };
     
