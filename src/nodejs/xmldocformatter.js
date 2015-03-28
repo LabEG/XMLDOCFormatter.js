@@ -11,7 +11,7 @@
 
     var fs = require("fs");
     var args = require("./arguments.js");
-    var xmldocformatter = require("../web/xmldocformatter.js");
+    var XMLDOCFormatter = require("../web/xmldocformatter.js");
 
     var filesForRead = [args.source];
     var filesForWrite = [args.output || args.source];
@@ -23,17 +23,16 @@
         var residueString = "";
         var resultOfFormatt = "";
         
+        var xmldocformatter = new XMLDOCFormatter();
+        
         //console.log("Begin formatting: ", fileForRead, fileForWrite);
 
         var fileReadStream = fs.createReadStream(fileForRead, {encoding: 'utf8', autoClose: true, highWaterMark: streambuffer});
         var fileWriteStream = fs.createWriteStream(fileForWrite + ".tmp", {encoding: 'utf8', autoClose: true});
 
-        fileReadStream.on('data', function (data) {
+        fileReadStream.on('data', function (chunk) {
             //console.log("Writing chunk on disk.");
-            resultOfFormatt = xmldocformatter.formatStream(residueString + data, level);
-            level = resultOfFormatt.level;
-            residueString = resultOfFormatt.residueString;
-            fileWriteStream.write(resultOfFormatt.formattedText);
+            fileWriteStream.write(xmldocformatter.format(chunk));
         });
 
         fileReadStream.on('end', function () {
