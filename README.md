@@ -1,17 +1,15 @@
 # XMLDOCFormatter
---
 A JavaScript Framework for formatting is like XML documents, such as XML, HTML, JSP, PHP and other. Compatible with Closure Compiler.
 
 ### Develop version, not for production yet.
 
 ## Features
---
 - Closure compiler compability,
 - Using JSDoc for documentations,
-- OOP oriented.
+- OOP oriented,
+- All code checking by JSHint and JSLint.
 
 ## Sample
---
  Before formatting: 
 ```html
 <html>    <head>  <title>  Title text    </title>
@@ -55,14 +53,12 @@ After formatting:
 More example in folders [test/unformatted/](./tree/master/test/unformatted) and [test/formatted/](./tree/master/test/formatted).
 
 ##Using in browser
---
 XMLDOCFormatter can you use in browser for show unformatted text as formatted:
 ```javascript
 var xmldocformatter = new XMLDOCFormatter();
 xmldocformatter.format("<html>text for formatting<html>");
 ```
 ##Using in streams
---
 XMLDOCFormatter has an internal memory in which it stores information about the last formatted block, whereby it is possible to format streams.
 ```javascript
 var xmldocformatter = new XMLDOCFormatter();
@@ -82,17 +78,16 @@ fileReadStream.on('end', function () {
 XMLDOCFormatter is an object, so you can create multiple objects with different options and asynchronously to format multiple streams.
 
 ##Using in nodejs
---
 XMLDOCFormatter can you use in konsole with node.js:
 ```sh
-node xmldocformatter.js --source path/to/source.html --output path/to/output.html;
+node xmldocformatter.js source path/to/source.html output path/to/output.html;
 ```
 
 ##Options
---source, source file or directory for formatting.
---output, output path for formatted file or directory.
---streambuffer, buffer size for streamreader.
+- source, source file or directory for formatting.
+- output, output path for formatted file or directory.
+- streambuffer, buffer size for streamreader.
 
 ##Questions, Bugs, Feature requests
---
+
 All this you can leave in the appropriate section [issues](./issues). 
