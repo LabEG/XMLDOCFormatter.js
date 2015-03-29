@@ -53,7 +53,7 @@ After formatting:
 
 </html>
 ```
-More example in folders [test/unformatted/](tree/master/test/unformatted) and [test/formatted/](tree/master/test/formatted).
+More example in folders [test/unformatted/](../../tree/master/test/unformatted) and [test/formatted/](../../tree/master/test/formatted).
 
 ## Using in browser
 XMLDOCFormatter can you use in browser for show unformatted text as formatted:
@@ -92,4 +92,4 @@ node xmldocformatter.js source path/to/source.html output path/to/output.html;
 - streambuffer, buffer size for streamreader.
 
 ## Questions, Bugs, Feature requests
-All this you can leave in the appropriate section [issues](issues). 
+All this you can leave in the appropriate section [issues](../../issues). 
