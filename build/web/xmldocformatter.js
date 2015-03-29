@@ -9,7 +9,7 @@
 var LabEG = this.LabEG || {};
 LabEG.Lib = LabEG.Lib || {};
 
-if (LabEG.Lib.XMLFormatter) {
+if (LabEG.Lib.XMLDOCFormatter) {
     throw new Error("Redefine: LabEG.Lib.XMLFormatter");
 }
 
@@ -24,12 +24,12 @@ if (LabEG.Lib.XMLFormatter) {
      * @param {{charsBetweenTags: string, charsForTabs: string}} inOptions Options for working XMLFormatter
      * @returns {string}
      */
-    LabEG.Lib.XMLFormatter = function (inOptions) {
+    LabEG.Lib.XMLDOCFormatter = function (inOptions) {
 
         var self = this;
 
         this.options = {
-            charsBetweenTags: "\r\n\r\n",
+            charsBetweenTags: "\r\n",
             charsForTabs: "    "
         };
 
@@ -60,7 +60,7 @@ if (LabEG.Lib.XMLFormatter) {
             console.error("XMLFormatter error: ", message);
         };
 
-        var lastString = "";
+        var residueString = "";
 
         var formattedText = "";
         var endOfParsing = false;
@@ -74,27 +74,26 @@ if (LabEG.Lib.XMLFormatter) {
         var regexps = {
             XMLTagOpen: /^<[^!\/].*?>/, // <div id="test" class="test">
             XMLTagClose: /^<\/.*?>/, // </div>
-            HTMLComment: /^<!--[^><]*?-->/, // <!-- comment -->
-            HTMLCommentOpen: /^<!--.*?[^-]{2}>/, // <!--[if lt IE 7]> 
-            HTMLCommentClose: /^<[^<>]*?-->/, // <![endif]-->
+            XMLComment: /^<!--.*?-->/, // <!-- comment -->
             HTMLSpecTag: /^<![^<>]*?>/, // <!Doctype html>
             HTMLNotPairedTags: /^<(meta|link|img|br)[^<>]*?>/, //<meta charset="utf-8">
-            XMLTagWithoutPaier: /^<[^<>]*?\/>/, //l ink href="/favicon.ico" />
+            XMLTagWithoutPaier: /^<[^<>]*?\/>/, // <link href="/favicon.ico" />
             SimpleText: /^[^<>]+/, // just text
             EmptyTextNode: /^(\r|\n|\r\n|\s)+/ // new lines and spaces
         };
-
+        
         /**
          * @description Method for formatting text
          * @param {string} text Text for formatting.
-         * @returns {undefined}
+         * @returns {string}
          */
         this.format = function (text) {
-
+            
             formattedText = "";
             endOfParsing = false;
-            level = 0;
             cycles = 0;
+
+            text = residueString + text;
 
             while (!endOfParsing) {
 
@@ -191,7 +190,7 @@ if (LabEG.Lib.XMLFormatter) {
                 }
 
                 //html comment
-                foundMatch = text.match(regexps.HTMLComment);
+                foundMatch = text.match(regexps.XMLComment);
                 if (foundMatch) {
                     text = text.substring(foundMatch[0].length, text.length);
 
@@ -201,39 +200,6 @@ if (LabEG.Lib.XMLFormatter) {
                     }
 
                     self.onLog(tabs + "HTML comment: " + foundMatch[0]);
-                    formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;
-                    continue;
-                }
-
-                //html comment open
-                foundMatch = text.match(regexps.HTMLCommentOpen);
-                if (foundMatch) {
-                    text = text.substring(foundMatch[0].length, text.length);
-
-                    tabs = "";
-                    for (i = 0; i < level; i += 1) {
-                        tabs += self.options.charsForTabs;
-                    }
-                    level += 1;
-
-                    self.onLog(tabs + "HTML comment open: " + foundMatch[0]);
-                    formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;
-                    continue;
-                }
-
-
-                //html comment close
-                foundMatch = text.match(regexps.HTMLCommentClose);
-                if (foundMatch) {
-                    text = text.substring(foundMatch[0].length, text.length);
-
-                    level -= 1;
-                    tabs = "";
-                    for (i = 0; i < level; i += 1) {
-                        tabs += self.options.charsForTabs;
-                    }
-
-                    self.onLog(tabs + "HTML comment close: " + foundMatch[0]);
                     formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;
                     continue;
                 }
@@ -255,15 +221,15 @@ if (LabEG.Lib.XMLFormatter) {
 
                 if (text.length === 0) {
                     endOfParsing = true;
-                    lastString = "";
+                    residueString = "";
                     self.onLog("Parsing All block complete.");
                     continue;
                 }
 
                 if (text.length > 0) {
-                    lastString = text;
+                    residueString = text;
                     endOfParsing = true;
-                    self.onLog("Parsing All block ended, ending is cached to next cycle.");
+                    self.onError("Parsing All block ended, ending is cached to next cycle.");
                     continue;
                 }
 
@@ -275,10 +241,23 @@ if (LabEG.Lib.XMLFormatter) {
             }
             return formattedText;
         };
+        
+        /**
+         * @description 
+         * Clear memory of XMLDOCFormatter.
+         * Need if you begin formatting new stream or new document.
+         * 
+         * @returns {undefined}
+         */
+        this.clear = function (){
+            residueString = "";
+            level = 0;
+        };
+        
     };
     
     if (module){
-        module.exports = new LabEG.Lib.XMLFormatter();
+        module.exports = LabEG.Lib.XMLDOCFormatter;
     }
     
 }());
