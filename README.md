@@ -24,7 +24,9 @@ After formatting:
     <head>
 
         <title>
+
             Title text
+
         </title>
 
         <meta name="author"
@@ -41,6 +43,7 @@ After formatting:
     </head>
 
     <body>
+
         <img ng-src="{{img}}"
              class="phone"
              ng-repeat="img in phone.images"
@@ -50,15 +53,15 @@ After formatting:
 
 </html>
 ```
-More example in folders [test/unformatted/](./tree/master/test/unformatted) and [test/formatted/](./tree/master/test/formatted).
+More example in folders [test/unformatted/](tree/master/test/unformatted) and [test/formatted/](tree/master/test/formatted).
 
-##Using in browser
+## Using in browser
 XMLDOCFormatter can you use in browser for show unformatted text as formatted:
 ```javascript
 var xmldocformatter = new XMLDOCFormatter();
 xmldocformatter.format("<html>text for formatting<html>");
 ```
-##Using in streams
+## Using in streams
 XMLDOCFormatter has an internal memory in which it stores information about the last formatted block, whereby it is possible to format streams.
 ```javascript
 var xmldocformatter = new XMLDOCFormatter();
@@ -83,11 +86,10 @@ XMLDOCFormatter can you use in konsole with node.js:
 node xmldocformatter.js source path/to/source.html output path/to/output.html;
 ```
 
-##Options
+## Options
 - source, source file or directory for formatting.
 - output, output path for formatted file or directory.
 - streambuffer, buffer size for streamreader.
 
-##Questions, Bugs, Feature requests
-
-All this you can leave in the appropriate section [issues](./issues). 
+## Questions, Bugs, Feature requests
+All this you can leave in the appropriate section [issues](issues). 
