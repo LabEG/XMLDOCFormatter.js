@@ -1,4 +1,6 @@
 # XMLDOCFormatter
+
+[![Join the chat at https://gitter.im/LabEG/XMLDOCFormatter.js](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/LabEG/XMLDOCFormatter.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 A JavaScript Framework for formatting is like XML documents, such as XML, HTML, JSP, PHP and other. Compatible with Closure Compiler.
 
 ### Develop version, not for production yet.
