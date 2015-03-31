@@ -79,7 +79,7 @@ XMLDOCFormatter is an object, so you can create multiple objects with different 
 ##Using in nodejs
 XMLDOCFormatter can you use in konsole with node.js:
 ```sh
-node xmldocformatter.js source path/to/source.html output path/to/output.html;
+node xmldocformatter.js --source path/to/source.html --output path/to/output.html;
 ```
 
 ## Options
