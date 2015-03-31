@@ -3,12 +3,6 @@ A JavaScript Framework for formatting is like XML documents, such as XML, HTML, 
 
 ### Develop version, not for production yet.
 
-## Features
-- Closure compiler compability,
-- Using JSDoc for documentations,
-- OOP oriented,
-- All code checking by JSHint and JSLint.
-
 ## Sample
  Before formatting: 
 ```html
@@ -87,9 +81,15 @@ node xmldocformatter.js source path/to/source.html output path/to/output.html;
 ```
 
 ## Options
-- source, source file or directory for formatting.
-- output, output path for formatted file or directory.
-- streambuffer, buffer size for streamreader.
+- `--source` or `-s`, source file or directory for formatting.
+- `--output` or `-o`, output path for formatted file or directory.
+- `--streambuffer` or `-sb`, buffer size for streamreader.
+
+## Code Style
+- Closure compiler compability,
+- Using JSDoc for documentations,
+- OOP oriented,
+- All code checking by JSHint and JSLint.
 
 ## Questions, Bugs, Feature requests
 All this you can leave in the appropriate section [issues](../../issues). 
