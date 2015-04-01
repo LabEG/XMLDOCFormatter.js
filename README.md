@@ -5,6 +5,9 @@ A JavaScript Framework for formatting is like XML documents, such as XML, HTML, 
 
 ### Develop version, not for production yet.
 
+## Demo
+Demo of working on site: [demo site](http://labeg.github.io/XMLDOCFormatter.js/)
+
 ## Sample
  Before formatting: 
 ```html
@@ -49,7 +52,7 @@ After formatting:
 
 </html>
 ```
-More example in folders [test/unformatted/](../../tree/master/test/unformatted) and [test/formatted/](../../tree/master/test/formatted).
+More example in folders [test/unformatted/](https://github.com/LabEG/XMLDOCFormatter.js/tree/master/test/unformatted) and [test/formatted/](https://github.com/LabEG/XMLDOCFormatter.js/tree/master/tree/master/test/formatted).
 
 ## Using in browser
 XMLDOCFormatter can you use in browser for show unformatted text as formatted:
@@ -57,6 +60,7 @@ XMLDOCFormatter can you use in browser for show unformatted text as formatted:
 var xmldocformatter = new XMLDOCFormatter();
 xmldocformatter.format("<html>text for formatting<html>");
 ```
+
 ## Using in streams
 XMLDOCFormatter has an internal memory in which it stores information about the last formatted block, whereby it is possible to format streams.
 ```javascript
@@ -94,4 +98,4 @@ node xmldocformatter.js --source path/to/source.html --output path/to/output.htm
 - All code checking by JSHint and JSLint.
 
 ## Questions, Bugs, Feature requests
-All this you can leave in the appropriate section [issues](../../issues). 
+All this you can leave in the appropriate section [issues](https://github.com/LabEG/XMLDOCFormatter.js/issues). 
