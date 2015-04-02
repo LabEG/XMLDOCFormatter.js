@@ -9,33 +9,49 @@ and open the template in the editor.
         <title>XMLDOCFormatter.js - tools for formatting XML style documents.</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="content/css/prism.css">
         <link rel="stylesheet" href="content/css/main.css">
-        <!--<script src="http://cdn.rawgit.com/LabEG/XMLDOCFormatter.js/master/build/web/xmldocformatter.js"></script>-->        
-        <script src="http://rawgit.com/LabEG/XMLDOCFormatter.js/master/build/web/xmldocformatter.js"></script>
-        <script src="scripts/prism.js"></script>
-        <script src="scripts/main.js"></script>
     </head>
     <body>
         <table class="main">
             <tbody>
                 <tr>
-                    <td class="code language-markup">
-                        <textarea placeholder="Enter youre code here..."></textarea>
-                    </td>
+                    <td id="editor" class="code"></td>
                     <td class="setting">
-                        <h1>
+                        <h1 class="header">
                             XMLDOCFormatter.js
                         </h1>
+                        <br />
                         <h3>
                             Options:
                         </h3>
-                        <code>
-                            sdfsdfsdf
-                        </code>
+                        
+                        <div class="option">
+                            Character beatwen tags:                            
+                        </div>
+                        <input class="inpoption"value="\r\n\r\n">
+                        <div class="clearfix"></div>
+                        
+                        <div class="option">
+                            Offset symbolse:                            
+                        </div>
+                        <input class="inpoption" value="    ">
+                        <div class="clearfix"></div>
+                        
+                        <div class="option">
+                            Make multiline attributes:
+                        </div>
+                        <input class="inpoption">
+                        <div class="clearfix"></div>
+                        <button id="format" class="format">Format</button>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <div id="scripts">
+            <!--<script src="http://cdn.rawgit.com/LabEG/XMLDOCFormatter.js/master/build/web/xmldocformatter.js"></script>-->        
+            <script src="http://rawgit.com/LabEG/XMLDOCFormatter.js/master/build/web/xmldocformatter.js"></script>
+            <script src="http://rawgit.com/ajaxorg/ace-builds/master/src-noconflict/ace.js"></script>
+            <script src="scripts/main.js"></script>
+        </div>
     </body>
 </html>

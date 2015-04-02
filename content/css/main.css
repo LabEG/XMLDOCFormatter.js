@@ -106,7 +106,7 @@ html{
 body{
     width: 100%;
     height: 100%;
-    background-color: #ddd;
+    background-color: #eee;
     font-family: sans-serif, arial;
 }
 
@@ -125,23 +125,58 @@ body{
     border-left: 1px #ccc solid;
     color: #333;
     vertical-align: top;
-    padding: 2em;
+    padding: 1em;
     box-sizing: border-box;
 }
 
-.code textarea{
+.header{
+    width:100%;
+    font-size: 1.6em;
+    text-align: center;
+}
+
+.option{
+    margin-top: 1em;
+}
+
+.inpoption{
+    margin-top: 0.5em;
+    float: right;
+    border-radius: 4px;
+    border: 1px #ccc solid;
+    padding: 0.2em 0.5em;
+}
+
+.clearfix {
+    clear: both;
+}
+
+button.format{
     width: 100%;
-    height: 100%;
-    border: none;
-    background-color: transparent;
-    font-size: medium;
-    color: #444;
+    margin-top: 1em;
     transition-duration: 0.25s;
-    padding: 2em 2em 0 2em;
-    box-sizing: border-box;
-    resize: none;
+    cursor: pointer;
+    background-color:#44c767;
+    -moz-border-radius:28px;
+    -webkit-border-radius:28px;
+    border-radius:28px;
+    border:1px solid #18ab29;
+    color:#ffffff;
+    font-size:17px;
+    padding:16px 31px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #2f6627;
 }
 
-.code textarea:focus {
-    outline: none;
+button.format:hover {
+    background-color:#5cbf2a;
+}
+
+button.format:active {
+    position:relative;
+    top:1px;
+}
+
+button.format:focus {
+    outline:0px none transparent;
 }
