@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
+Smile =) And tell the other what would smile =)
+Demo of wotking with XMLDOCFormatter.
 -->
 <html>
     <head>
@@ -14,43 +13,125 @@ and open the template in the editor.
     <body>
         <table class="main">
             <tbody>
+                <tr class="top-block">
+                    <td class="top-left-block">
+                        A JavaScript Framework for formatting is like XML documents, such as XML, HTML, JSP, PHP and other. 
+                    </td>
+                    <td class="top-right-block">                        
+                        XMLDOCFormatter.js
+                    </td>
+                </tr>
                 <tr>
-                    <td id="editor" class="code"></td>
+                    <td id="editor" class="editor"></td>
                     <td class="setting">
-                        <h1 class="header">
-                            XMLDOCFormatter.js
-                        </h1>
-                        <br />
-                        <h3>
-                            Options:
-                        </h3>
-                        
-                        <div class="option">
-                            Characters beetwen tags:                            
+                        <div class="setting-block">
+                            <div class="option">
+                                Style:                            
+                            </div>
+                            <select id="opt-style" class="inpoption seloption">
+                                <option selected="" value="html">HTML</option>
+                                <option value="angular">Angular</option>
+                                <option value="xml">XML</option>
+                                <option value="php">PHP</option>
+                                <option value="jsp">JSP</option>
+                            </select>
+                            <div class="clearfix"></div>
+
+                            <div class="option">
+                                Characters beetwen tags:
+                            </div>
+                            <input id="opt-charbeetwtag" class="inpoption" value="\r\n">
+                            <div class="clearfix"></div>
+
+                            <div class="option">
+                                Characters for offset:
+                            </div>
+                            <input id="opt-charforoffset" class="inpoption" value="    ">
+                            <div class="clearfix"></div>
+
+                            <div class="option">
+                                Make multiline attributes:
+                            </div>
+                            <label class="optmultilatrlabel">
+                                <input id="opt-multiline-atr-yes"  type="radio" name="optmultiline" value="false" checked="">
+                                No
+                            </label>
+                            <label  class="optmultilatrlabel">
+                                <input id="opt-multiline-atr-no" type="radio" name="optmultiline" value="true">
+                                Yes
+                            </label>
+                            <div class="clearfix"></div>
+
+                            <div class="option">
+                                Not paired tags, by commas:
+                            </div>
+                            <textarea id="opt-nopairetag" class="inpoption txtareaoption">link, meta, input, br</textarea>
+                            <div class="clearfix"></div>                            
                         </div>
-                        <input class="inpoption" value="\r\n\r\n">
-                        <div class="clearfix"></div>
-                        
-                        <div class="option">
-                            Characters for offset:                            
+                    </td>
+                </tr>
+                <tr class="bottom-block">
+                    <td class="bottom-left-block">
+                        <div>
+                            Share with your frends:                        
+                            <a class="github-button" href="https://github.com/LabEG/XMLDOCFormatter.js" data-count-href="/LabEG/XMLDOCFormatter.js/stargazers" data-count-api="/repos/LabEG/XMLDOCFormatter.js#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star LabEG/XMLDOCFormatter.js on GitHub">Star</a>                        
+                            <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+                            <div class="fb-like" data-href="http://labeg.github.io/XMLDOCFormatter.js/" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
                         </div>
-                        <input class="inpoption" value="    ">
-                        <div class="clearfix"></div>
-                        
-                        <div class="option">
-                            Make multiline attributes:
-                        </div>
-                        <input class="inpoption">
-                        <div class="clearfix"></div>
+                    </td>
+                    <td class="bottom-right-block">                        
                         <button id="format" class="format">Format</button>
                     </td>
                 </tr>
             </tbody>
         </table>
         <div id="scripts">
+            <!--github button-->
+            <script async id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+            <!--twitter button-->
+            <script async>!function (d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+                    if (!d.getElementById(id)) {
+                        js = d.createElement(s);
+                        js.id = id;
+                        js.src = p + '://platform.twitter.com/widgets.js';
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }
+                }(document, 'script', 'twitter-wjs');</script>
+            <!--facebook button-->
+            <div id="fb-root"></div>
+            <script async>(function (d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id))
+                        return;
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.3";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));</script>
+            <!--google analytic-->
+            <script async>
+                (function (i, s, o, g, r, a, m) {
+                    i['GoogleAnalyticsObject'] = r;
+                    i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date();
+                    a = s.createElement(o),
+                            m = s.getElementsByTagName(o)[0];
+                    a.async = 1;
+                    a.src = g;
+                    m.parentNode.insertBefore(a, m)
+                })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+                ga('create', 'UA-23517150-4', 'auto');
+                ga('send', 'pageview');
+
+            </script>
+            <!--ace editor-->
+            <script src="http://cdn.rawgit.com/ajaxorg/ace-builds/master/src-noconflict/ace.js"></script>
             <!--<script src="http://cdn.rawgit.com/LabEG/XMLDOCFormatter.js/master/build/web/xmldocformatter.js"></script>-->        
+            <!--main-->
             <script src="http://rawgit.com/LabEG/XMLDOCFormatter.js/master/build/web/xmldocformatter.js"></script>
-            <script src="http://rawgit.com/ajaxorg/ace-builds/master/src-noconflict/ace.js"></script>
             <script src="scripts/main.js"></script>
         </div>
     </body>
