@@ -256,8 +256,10 @@ if (LabEG.Lib.XMLDOCFormatter) {
         
     };
     
-    if (module){
+    try {
         module.exports = LabEG.Lib.XMLDOCFormatter;
+    } catch (exc) {
+        
     }
     
 }());
