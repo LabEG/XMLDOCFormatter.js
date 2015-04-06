@@ -20,8 +20,8 @@
      */
     document.getElementById("format").addEventListener("click", function () {
 
-        //xmldocformatter.options.charsBetweenTags = document.getElementById("opt-charbeetwtag").value.replace(/\\(.)/g,"\$1");
-        xmldocformatter.options.charsForTabs = document.getElementById("opt-charforoffset").value;
+        xmldocformatter.options.charsBetweenTags = JSON.parse(JSON.stringify(document.getElementById("opt-charbeetwtag").value).replace(/\\\\/g, "\\"));
+        xmldocformatter.options.charsForTabs = JSON.parse(JSON.stringify(document.getElementById("opt-charforoffset").value).replace(/\\\\/g, "\\"));
         xmldocformatter.options.notPairedTags = document.getElementById("opt-nopairetag").value;
 
         if (document.getElementById("opt-multiline-atr-yes").checked) {
@@ -35,7 +35,7 @@
     });
 
     /**
-     * Stylus
+     * Styles
      */
     var styles = {
         html: {
@@ -44,7 +44,7 @@
             multilineatr: false,
             notparetag: "link, meta, input, br"
         },
-        angular: {
+        advancehtml: {
             charbeetwtag: "\\r\\n\\r\\n",
             charoffset: "    ",
             multilineatr: true,
@@ -84,5 +84,25 @@
         }
 
     });
+
+    /**
+     * Load sample
+     */
+    if (window.location.search.indexOf("demo=") > -1) {
+        var file = window.location.search.match(/demo=([^&]*)/)[1];
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", file, true);
+        xhr.onreadystatechange = function () {
+
+            if (xhr.readyState !== 4){
+                return;
+            }
+
+            editor.setValue(xhr.responseText);
+        };
+
+        xhr.send();
+    }
 
 }());
