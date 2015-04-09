@@ -6,53 +6,14 @@ A JavaScript Framework for formatting is like XML documents, such as XML, HTML, 
 ### Develop version, not for production yet.
 
 ## Demo
-Demo of working on site: [demo site](http://labeg.github.io/XMLDOCFormatter.js/)
+Demo of working on site:
+ [facebook html](http://labeg.github.io/XMLDOCFormatter.js/?demo=content/examples/facebook.html)
+ [nodejs html](http://labeg.github.io/XMLDOCFormatter.js/?demo=content/examples/nodejs.html)
+ [codewinds html](http://labeg.github.io/XMLDOCFormatter.js/?demo=content/examples/codewinds.html)
+ [rbc rss](http://labeg.github.io/XMLDOCFormatter.js/?demo=content/examples/rbc.news.rss)
 
-## Sample
- Before formatting: 
-```html
-<html>    <head>  <title>  Title text    </title>
-        <meta name="author" content="Jeff Barczewski"/>   <meta name="viewport"          content="width=device-width, initial-scale=1.0"/>       <link rel="icon"             type="image/png"    sizes="64x64"
-              href="/assets/favicon-64.png"/>    </head>    <body>
-        <img ng-src="{{img}}"   class="phone"    ng-repeat="img in phone.images"            ng-class="{active:mainImageUrl==img}">    </body></html>
-```
-After formatting:
-```html
-<html>
-
-    <head>
-
-        <title>
-
-            Title text
-
-        </title>
-
-        <meta name="author"
-              content="Jeff Barczewski"/>
-
-        <meta name="viewport"
-              content="width=device-width, initial-scale=1.0"/>
-
-        <link rel="icon"
-              type="image/png"
-              sizes="64x64"
-              href="/assets/favicon-64.png"/>
-
-    </head>
-
-    <body>
-
-        <img ng-src="{{img}}"
-             class="phone"
-             ng-repeat="img in phone.images"
-             ng-class="{active:mainImageUrl==img}">
-        
-    </body>
-
-</html>
-```
-More example in folders [test/unformatted/](https://github.com/LabEG/XMLDOCFormatter.js/tree/master/test/unformatted) and [test/formatted/](https://github.com/LabEG/XMLDOCFormatter.js/tree/master/tree/master/test/formatted).
+## Questions, Bugs, Feature requests
+All this you can leave in the appropriate section [issues](https://github.com/LabEG/XMLDOCFormatter.js/issues). 
 
 ## Using in browser
 XMLDOCFormatter can you use in browser for show unformatted text as formatted:
@@ -96,6 +57,3 @@ node xmldocformatter.js --source path/to/source.html --output path/to/output.htm
 - Using JSDoc for documentations,
 - OOP oriented,
 - All code checking by JSHint and JSLint.
-
-## Questions, Bugs, Feature requests
-All this you can leave in the appropriate section [issues](https://github.com/LabEG/XMLDOCFormatter.js/issues). 

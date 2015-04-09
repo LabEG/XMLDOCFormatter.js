@@ -35,8 +35,8 @@
             fileWriteStream.write(xmldocformatter.format(chunk));
         });
 
-        fileReadStream.on('end', function () {
-            //console.log('End stream.');
+        fileReadStream.on('end', function (chunk) {
+//            console.log('End stream.');
             fs.rename(fileForWrite + ".tmp", fileForWrite);
             fileWriteStream.end();
         });
