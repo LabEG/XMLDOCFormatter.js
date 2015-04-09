@@ -22,7 +22,7 @@
 
         xmldocformatter.options.charsBetweenTags = JSON.parse(JSON.stringify(document.getElementById("opt-charbeetwtag").value).replace(/\\\\/g, "\\"));
         xmldocformatter.options.charsForTabs = JSON.parse(JSON.stringify(document.getElementById("opt-charforoffset").value).replace(/\\\\/g, "\\"));
-        xmldocformatter.options.notPairedTags = document.getElementById("opt-nopairetag").value;
+        xmldocformatter.options.notPairedTags = document.getElementById("opt-nopairetag").value.replace(/\s/g, "").split(",");        
 
         if (document.getElementById("opt-multiline-atr-yes").checked) {
             xmldocformatter.options.isMultilineAttributes = true;
