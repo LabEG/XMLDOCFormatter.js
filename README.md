@@ -3,14 +3,12 @@
 # XMLDOCFormatter
 A JavaScript Framework for formatting is like XML documents, such as XML, HTML, JSP, PHP and other. Compatible with Closure Compiler.
 
-### Develop version, not for production yet.
-
 ## Demo
 Demo of working on site:
- [facebook html](http://labeg.github.io/XMLDOCFormatter.js/?demo=content/examples/facebook.html)
- [nodejs html](http://labeg.github.io/XMLDOCFormatter.js/?demo=content/examples/nodejs.html)
- [codewinds html](http://labeg.github.io/XMLDOCFormatter.js/?demo=content/examples/codewinds.html)
- [rbc rss](http://labeg.github.io/XMLDOCFormatter.js/?demo=content/examples/rbc.news.rss)
+ [facebook html](http://labeg.github.io/XMLDOCFormatter.js/?demo=content/examples/facebook.html), 
+ [nodejs html](http://labeg.github.io/XMLDOCFormatter.js/?demo=content/examples/nodejs.html), 
+ [codewinds html](http://labeg.github.io/XMLDOCFormatter.js/?demo=content/examples/codewinds.html), 
+ [rbc rss](http://labeg.github.io/XMLDOCFormatter.js/?demo=content/examples/rbc.news.rss).
 
 ## Questions, Bugs, Feature requests
 All this you can leave in the appropriate section [issues](https://github.com/LabEG/XMLDOCFormatter.js/issues). 
