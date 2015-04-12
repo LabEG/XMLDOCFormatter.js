@@ -3,24 +3,24 @@
 # XMLDOCFormatter
 A JavaScript Framework for formatting is like XML documents, such as XML, HTML, JSP, PHP and other. Compatible with Closure Compiler.
 
-## Demo
+Demo: 
 Demo of working on site:
- [facebook html](http://labeg.github.io/XMLDOCFormatter.js/?demo=content/examples/facebook.html), 
  [nodejs html](http://labeg.github.io/XMLDOCFormatter.js/?demo=content/examples/nodejs.html), 
  [codewinds html](http://labeg.github.io/XMLDOCFormatter.js/?demo=content/examples/codewinds.html), 
  [rbc rss](http://labeg.github.io/XMLDOCFormatter.js/?demo=content/examples/rbc.news.rss).
 
-## Questions, Bugs, Feature requests
+Questions, Bugs, Feature requests:
 All this you can leave in the appropriate section [issues](https://github.com/LabEG/XMLDOCFormatter.js/issues). 
 
-## Using in browser
+## Using
+In browser:
 XMLDOCFormatter can you use in browser for show unformatted text as formatted:
 ```javascript
 var xmldocformatter = new XMLDOCFormatter();
 xmldocformatter.format("<html>text for formatting<html>");
 ```
 
-## Using in streams
+In streams:
 XMLDOCFormatter has an internal memory in which it stores information about the last formatted block, whereby it is possible to format streams.
 ```javascript
 var xmldocformatter = new XMLDOCFormatter();
@@ -39,13 +39,20 @@ fileReadStream.on('end', function () {
 ```
 XMLDOCFormatter is an object, so you can create multiple objects with different options and asynchronously to format multiple streams.
 
-##Using in nodejs
+In nodejs:
 XMLDOCFormatter can you use in konsole with node.js:
 ```sh
 node xmldocformatter.js --source path/to/source.html --output path/to/output.html;
 ```
 
 ## Options
+In web:
+- `charsBetweenTags`, chars bettwen symbol > and <, example \r\n.
+- `charsForTabs`, chars for tabs, example \t or "    ".
+- `notPairedTags`, tags without closed tags.
+- `isMultilineAttributes`, make attributes on multiline.
+
+In node.js:
 - `--source` or `-s`, source file or directory for formatting.
 - `--output` or `-o`, output path for formatted file or directory.
 - `--streambuffer` or `-sb`, buffer size for streamreader.
