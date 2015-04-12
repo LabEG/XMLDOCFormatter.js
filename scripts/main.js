@@ -42,13 +42,13 @@
             charbeetwtag: "\\r\\n",
             charoffset: "    ",
             multilineatr: false,
-            notparetag: "link, meta, input, br"
+            notparetag: "link, meta, input, br, img"
         },
         advancehtml: {
             charbeetwtag: "\\r\\n\\r\\n",
             charoffset: "    ",
             multilineatr: true,
-            notparetag: "link, meta, input, br"
+            notparetag: "link, meta, input, br, img"
         },
         xml: {
             charbeetwtag: "\\r\\n",
