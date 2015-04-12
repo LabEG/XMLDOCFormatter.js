@@ -3096,8 +3096,8 @@ wordwrap.hard = function (start, stop) {
             fileWriteStream.write(xmldocformatter.format(chunk));
         });
 
-        fileReadStream.on('end', function () {
-            //console.log('End stream.');
+        fileReadStream.on('end', function (chunk) {
+//            console.log('End stream.');
             fs.rename(fileForWrite + ".tmp", fileForWrite);
             fileWriteStream.end();
         });
@@ -3144,7 +3144,9 @@ if (LabEG.Lib.XMLDOCFormatter) {
 
         this.options = {
             charsBetweenTags: "\r\n",
-            charsForTabs: "    "
+            charsForTabs: "    ",
+            notPairedTags: "meta|link|img|br|input".split("|"),
+            isMultilineAttributes: false
         };
 
         /**
@@ -3153,7 +3155,7 @@ if (LabEG.Lib.XMLDOCFormatter) {
          * @returns {undefined}
          */
         this.onLog = function (message) {
-            console.log("XMLFormatter log: ", message);
+//            console.log("XMLFormatter log: ", message);
         };
 
         /**
@@ -3182,27 +3184,24 @@ if (LabEG.Lib.XMLDOCFormatter) {
         var foundMatch = [];
         var cycles = 0;
         var tabs = "";
+        var levelsTags = [];
 
         var i = 0; //just iterator
 
         var regexps = {
-            XMLTagOpen: /^<[^!\/].*?>/, // <div id="test" class="test">
-            XMLTagClose: /^<\/.*?>/, // </div>
-            XMLComment: /^<!--.*?-->/, // <!-- comment -->
-            HTMLSpecTag: /^<![^<>]*?>/, // <!Doctype html>
-            HTMLNotPairedTags: /^<(meta|link|img|br)[^<>]*?>/, //<meta charset="utf-8">
-            XMLTagWithoutPaier: /^<[^<>]*?\/>/, // <link href="/favicon.ico" />
-            SimpleText: /^[^<>]+/, // just text
-            EmptyTextNode: /^(\r|\n|\r\n|\s)+/ // new lines and spaces
+            Comment: /^<!--.*?-->/, // <!-- comment -->
+            Tag: /^<[\s\S]*?>/,
+            Text: /^[^<]+/, // just text
+            Empty: /^(\r|\n|\r\n|\s|\t)+/ // new lines and spaces
         };
-        
+
         /**
          * @description Method for formatting text
          * @param {string} text Text for formatting.
          * @returns {string}
          */
         this.format = function (text) {
-            
+
             formattedText = "";
             endOfParsing = false;
             cycles = 0;
@@ -3212,99 +3211,16 @@ if (LabEG.Lib.XMLDOCFormatter) {
             while (!endOfParsing) {
 
                 //empty text node or new lines
-                foundMatch = text.match(regexps.EmptyTextNode);
+                foundMatch = text.match(regexps.Empty);
                 if (foundMatch) {
                     text = text.substring(foundMatch[0].length, text.length);
-
-                    tabs = "";
-                    for (i = 0; i < level; i += 1) {
-                        tabs += self.options.charsForTabs;
-                    }
 
                     self.onLog(tabs + "Empty text node or new line.");
                     continue;
                 }
 
-                //tag without paire.
-                foundMatch = text.match(regexps.XMLTagWithoutPaier);
-                if (foundMatch) {
-                    text = text.substring(foundMatch[0].length, text.length);
-
-                    tabs = "";
-                    for (i = 0; i < level; i += 1) {
-                        tabs += self.options.charsForTabs;
-                    }
-
-                    self.onLog(tabs + "Tag without pair: " + foundMatch[0]);
-                    formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;
-                    continue;
-                }
-
-                //not paired html tags. Example: meta, link.
-                foundMatch = text.match(regexps.HTMLNotPairedTags);
-                if (foundMatch) {
-                    text = text.substring(foundMatch[0].length, text.length);
-
-                    tabs = "";
-                    for (i = 0; i < level; i += 1) {
-                        tabs += self.options.charsForTabs;
-                    }
-
-                    self.onLog(tabs + "Not paired html tag: " + foundMatch[0]);
-                    formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;
-                    continue;
-                }
-
-                //open tags
-                foundMatch = text.match(regexps.XMLTagOpen);
-                if (foundMatch) {
-                    text = text.substring(foundMatch[0].length, text.length);
-
-                    tabs = "";
-                    for (i = 0; i < level; i += 1) {
-                        tabs += self.options.charsForTabs;
-                    }
-                    level += 1;
-
-                    self.onLog(tabs + "Tag open: " + foundMatch[0]);
-                    formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;
-                    continue;
-                }
-
-                //close tags
-                foundMatch = text.match(regexps.XMLTagClose);
-                if (foundMatch) {
-                    text = text.substring(foundMatch[0].length, text.length);
-
-                    level -= 1;
-                    tabs = "";
-                    for (i = 0; i < level; i += 1) {
-                        tabs += self.options.charsForTabs;
-                    }
-
-                    self.onLog(tabs + "Tag close: " + foundMatch[0]);
-                    formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;
-                    continue;
-                }
-
-                //simple text
-                foundMatch = text.match(regexps.SimpleText);
-                if (foundMatch) {
-                    text = text.substring(foundMatch[0].length, text.length);
-                    foundMatch[0] = foundMatch[0].replace(/\r|\n|\r\n|\s{2,}/g);
-
-                    tabs = "";
-                    for (i = 0; i < level; i += 1) {
-                        tabs += self.options.charsForTabs;
-                    }
-
-                    self.onLog(tabs + "Simple text: " + foundMatch[0]);
-                    formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;
-                    continue;
-                }
-
                 //html comment
-                foundMatch = text.match(regexps.XMLComment);
+                foundMatch = text.match(regexps.Comment);
                 if (foundMatch) {
                     text = text.substring(foundMatch[0].length, text.length);
 
@@ -3318,17 +3234,58 @@ if (LabEG.Lib.XMLDOCFormatter) {
                     continue;
                 }
 
-                //html spec tags
-                foundMatch = text.match(regexps.HTMLSpecTag);
+                //tag
+                foundMatch = text.match(regexps.Tag);
                 if (foundMatch) {
                     text = text.substring(foundMatch[0].length, text.length);
+                    foundMatch[0] = foundMatch[0]
+                            .replace(/\r|\n|\r\n/g, "") //remove new lines
+                            .replace(/\s{2,}/g, " ")
+                            .replace(/^<\s/g, "<")
+                            .replace(/\s>$/g, ">");
+
+                    //level to down on tag </div>
+                    if (foundMatch[0].match(/^<\//)) {
+                        level -= 1;
+                    }
+
+                    tabs = "";
+                    for (i = 0; i < level; i += 1) {
+                        tabs += self.options.charsForTabs;
+                    }
+                    
+                    //level to up on tag <div class="">
+                    if (!foundMatch[0].match(/^<[!\/]/) && !foundMatch[0].match(/\/>$/)) {
+                        level += 1;
+                        levelsTags[level] = foundMatch[0].match(/^<(.*?)[\s>]/)[1];
+                        
+                        console.log(foundMatch[0]);
+                        
+                        //not need up increment, if tag not paired
+                        if (self.options.notPairedTags.indexOf(levelsTags[level]) > -1){
+                            level -= 1;
+                        }
+                    }
+
+                    self.onLog(tabs + "Tag: " + foundMatch[0]);
+                    formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;
+                    continue;
+                }
+
+                //simple text
+                foundMatch = text.match(regexps.Text);
+                if (foundMatch) {
+                    text = text.substring(foundMatch[0].length, text.length);
+                    foundMatch[0] = foundMatch[0]
+                            .replace(/\r|\n|\r\n/g, "")
+                            .replace(/\s{2,}/g, " ");
 
                     tabs = "";
                     for (i = 0; i < level; i += 1) {
                         tabs += self.options.charsForTabs;
                     }
 
-                    self.onLog(tabs + "HTML spec tag: " + foundMatch[0]);
+                    self.onLog(tabs + "Simple text: " + foundMatch[0]);
                     formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;
                     continue;
                 }
@@ -3343,7 +3300,7 @@ if (LabEG.Lib.XMLDOCFormatter) {
                 if (text.length > 0) {
                     residueString = text;
                     endOfParsing = true;
-                    self.onError("Parsing All block ended, ending is cached to next cycle.");
+                    self.onLog("Parsing All block ended, ending is cached to next cycle.");
                     continue;
                 }
 
@@ -3355,7 +3312,7 @@ if (LabEG.Lib.XMLDOCFormatter) {
             }
             return formattedText;
         };
-        
+
         /**
          * @description 
          * Clear memory of XMLDOCFormatter.
@@ -3363,18 +3320,19 @@ if (LabEG.Lib.XMLDOCFormatter) {
          * 
          * @returns {undefined}
          */
-        this.clear = function (){
+        this.clear = function () {
             residueString = "";
             level = 0;
+            levelsTags.length = 0;
         };
-        
+
     };
-    
+
     try {
         module.exports = LabEG.Lib.XMLDOCFormatter;
     } catch (exc) {
-        
+
     }
-    
+
 }());
 },{}]},{},[19])
