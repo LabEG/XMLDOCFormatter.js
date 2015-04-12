@@ -130,7 +130,7 @@ if (LabEG.Lib.XMLDOCFormatter) {
                             .replace(/^<\s/g, "<")
                             .replace(/\s>$/g, ">");
 
-                    //down level on tag </div>
+                    //level to down on tag </div>
                     if (foundMatch[0].match(/^<\//)) {
                         level -= 1;
                     }
@@ -140,7 +140,7 @@ if (LabEG.Lib.XMLDOCFormatter) {
                         tabs += self.options.charsForTabs;
                     }
                     
-                    //up level on tag <div class="">
+                    //level to up on tag <div class="">
                     if (!foundMatch[0].match(/^<[!\/]/) && !foundMatch[0].match(/\/>$/)) {
                         level += 1;
                         levelsTags[level] = foundMatch[0].match(/^<(.*?)[\s>]/)[1];
