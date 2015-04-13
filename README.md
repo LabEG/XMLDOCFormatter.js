@@ -49,9 +49,10 @@ node xmldocformatter.js --source path/to/source.html --output path/to/output.htm
 ##### In web:
 - `charsBetweenTags`, chars bettwen symbol > and <, example \r\n.
 - `charsForTabs`, chars for tabs, example \t or "    ".
-- `notPairedTags`, tags without closed tags.
+- `notPairedTags`, tags without closed tags, as array, example [link, br, img].
 - `isMultilineAttributes`, make attributes on multiline.
 
+#####
 ##### In node.js:
 - `--source` or `-s`, source file or directory for formatting.
 - `--output` or `-o`, output path for formatted file or directory.
