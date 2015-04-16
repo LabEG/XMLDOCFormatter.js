@@ -3246,24 +3246,32 @@ if (LabEG.Lib.XMLDOCFormatter) {
 
                     //level to down on tag </div>
                     if (foundMatch[0].match(/^<\//)) {
+
                         level -= 1;
+
+                        if (levelsTags[level] !== foundMatch[0].match(/^<\/(.*?)[\s>]/)[1]) {
+                            self.onWarning(
+                                    "Not corrected closed tag: ",
+                                    levelsTags[level],
+                                    " - ",
+                                    foundMatch[0].match(/^<\/(.*?)[\s>]/)[1]
+                                    );
+                        }
                     }
 
                     tabs = "";
                     for (i = 0; i < level; i += 1) {
                         tabs += self.options.charsForTabs;
                     }
-                    
+
                     //level to up on tag <div class="">
                     if (!foundMatch[0].match(/^<[!\/]/) && !foundMatch[0].match(/\/>$/)) {
-                        level += 1;
+
                         levelsTags[level] = foundMatch[0].match(/^<(.*?)[\s>]/)[1];
-                        
-                        console.log(foundMatch[0]);
-                        
+
                         //not need up increment, if tag not paired
-                        if (self.options.notPairedTags.indexOf(levelsTags[level]) > -1){
-                            level -= 1;
+                        if (self.options.notPairedTags.indexOf(levelsTags[level]) === -1) {
+                            level += 1;
                         }
                     }
 
@@ -3328,10 +3336,12 @@ if (LabEG.Lib.XMLDOCFormatter) {
 
     };
 
-    try {
+    if (typeof module != "undefined" && module !== null && module.exports) {
         module.exports = LabEG.Lib.XMLDOCFormatter;
-    } catch (exc) {
-
+    } else if (typeof define === "function" && define.amd) {
+        define(function () {
+            return LabEG.Lib.XMLDOCFormatter;
+        });
     }
 
 }());

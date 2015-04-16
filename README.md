@@ -2,6 +2,7 @@
 
 # XMLDOCFormatter
 A JavaScript Framework for formatting is like XML documents, such as XML, HTML, JSP, PHP and other. Compatible with Closure Compiler.
+## !!!Development version, not for production yet.
 
 ##### Demo: 
 Demo of working on site:
@@ -18,6 +19,7 @@ XMLDOCFormatter can you use in browser for show unformatted text as formatted:
 ```javascript
 var xmldocformatter = new XMLDOCFormatter();
 xmldocformatter.format("<html>text for formatting<html>");
+xmldocformatter.clear();
 ```
 
 ##### In streams:
