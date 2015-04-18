@@ -31,7 +31,7 @@ if (LabEG.Lib.XMLDOCFormatter) {
         this.options = {
             charsBetweenTags: "\r\n",
             charsForTabs: "    ",
-            notPairedTags: "meta|link|img|br|input".split("|"),
+            notPairedTags: "meta|link|img|br|input|param|hr|wbr".split("|"),
             isMultilineAttributes: false
         };
 
@@ -50,7 +50,7 @@ if (LabEG.Lib.XMLDOCFormatter) {
          * @returns {undefined}
          */
         this.onWarning = function (message) {
-            console.warn("XMLFormatter warning: ", message);
+            console.log("XMLFormatter warning: ", message);
         };
 
         /**
@@ -59,7 +59,7 @@ if (LabEG.Lib.XMLDOCFormatter) {
          * @returns {undefined}
          */
         this.onError = function (message) {
-            console.error("XMLFormatter error: ", message);
+            console.log("XMLFormatter error: ", message);
         };
 
         var residueString = "";
@@ -134,14 +134,16 @@ if (LabEG.Lib.XMLDOCFormatter) {
                     if (foundMatch[0].match(/^<\//)) {
 
                         level -= 1;
-
+                        
                         if (levelsTags[level] !== foundMatch[0].match(/^<\/(.*?)[\s>]/)[1]) {
                             self.onWarning(
-                                    "Not corrected closed tag: ",
-                                    levelsTags[level],
-                                    " - ",
+                                    "Not corrected closed tag: " + 
+                                    levelsTags[level] +
+                                    " - " +
                                     foundMatch[0].match(/^<\/(.*?)[\s>]/)[1]
                                     );
+                        } else {
+                            levelsTags[level] = null;
                         }
                     }
 

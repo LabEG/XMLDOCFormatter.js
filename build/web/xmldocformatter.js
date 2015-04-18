@@ -142,6 +142,8 @@ if (LabEG.Lib.XMLDOCFormatter) {
                                     " - ",
                                     foundMatch[0].match(/^<\/(.*?)[\s>]/)[1]
                                     );
+                        } else {
+                            levelsTags[level] = null;
                         }
                     }
 

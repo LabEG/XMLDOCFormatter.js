@@ -25,6 +25,16 @@
         });
     });
     
+    gulp.task('test-3', function () {
+        exec("node src/nodejs/xmldocformatter.js" +
+                " --source test/unformatted/nodejs.html" + 
+                " --output test/formatted/nodejs.html",
+        function (err, data) {
+            console.log(err);
+            console.log(data.toString());
+        });
+    });
+    
     gulp.task('test', ['test-1', 'test-2', 'test-3']);
     
 }());
