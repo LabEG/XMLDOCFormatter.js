@@ -3315,7 +3315,7 @@ if (LabEG.Lib.XMLDOCFormatter) {
                 cycles += 1;
                 if (cycles > 3) {
                     endOfParsing = true;
-                    this.onWarning("Cycles limit.");
+                    self.onWarning("Cycles limit.");
                 }
             }
             return formattedText;

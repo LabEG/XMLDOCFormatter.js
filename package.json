@@ -1,5 +1,5 @@
 {
-    "name": "XMLDOC-Formatter",
+    "name": "xmldocformatter",
     "version": "0.0.1",
     "description": "Tools for formatting XML documents, like as XML, HTML, JSP, on webpage and Node.js.",
     "author": "Evgeny Labutin aka LabEG <labeg@mail.ru>",
@@ -15,7 +15,7 @@
         "test": "test"
     },
     "scripts": {
-        "test": "test/testall.sh"
+        "test": "gulp test"
     },
     "keywords": [
         "prettity",
@@ -26,6 +26,9 @@
     ],
     "analyze": true,
     "license": "ISC",
+    "dependencies": {
+        "yargs": "^3.6.0"
+    },
     "devDependencies": {
         "gulp": "^3.8.11",
         "gulp-browserify": "^0.5.1",
@@ -35,7 +38,6 @@
         "gulp-jslint-simple": "^1.0.0",
         "gulp-rename": "^1.2.0",
         "gulp-uglify": "^1.1.0",
-        "require-dir": "^0.1.0",
-        "yargs": "^3.6.0"
+        "require-dir": "^0.1.0"
     }
 }

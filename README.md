@@ -1,7 +1,7 @@
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/LabEG/XMLDOCFormatter.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 # XMLDOCFormatter
-A JavaScript Framework for formatting is like XML documents, such as XML, HTML, JSP, PHP and other. Compatible with Closure Compiler.
+A JavaScript Framework for formatting is like XML documents, such as XML, HTML, JSP, PHP and other.
 ## !!!Development version, not for production yet.
 
 ##### Demo: 
@@ -63,4 +63,5 @@ node xmldocformatter.js --source path/to/source.html --output path/to/output.htm
 - Closure compiler compability,
 - Using JSDoc for documentations,
 - OOP oriented,
-- All code checking by JSHint and JSLint.
+- All code checking by JSHint and JSLint,
+- Browserify, RequireJS, CommonJS, AMD compatibility.
