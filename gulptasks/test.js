@@ -8,7 +8,8 @@
     gulp.task('test-1', function () {
         exec("node src/nodejs/xmldocformatter.js" +
                 " --source test/unformatted/codewinds.html" + 
-                " --output test/formatted/codewinds.html",
+                " --output test/formatted/codewinds.html" +
+                " --streambuffer 4096",
         function (err, data) {
             console.log(err);
             console.log(data.toString());
@@ -18,7 +19,8 @@
     gulp.task('test-2', function () {
         exec("node src/nodejs/xmldocformatter.js" +
                 " --source test/unformatted/news_rss.xml" + 
-                " --output test/formatted/news_rss.xml",
+                " --output test/formatted/news_rss.xml" +
+                " --notpairedtags \"\"",
         function (err, data) {
             console.log(err);
             console.log(data.toString());

@@ -71,6 +71,7 @@ if (LabEG.Lib.XMLDOCFormatter) {
         var cycles = 0;
         var tabs = "";
         var levelsTags = [];
+        var lineNumber = 1;
 
         var i = 0; //just iterator
 
@@ -93,7 +94,7 @@ if (LabEG.Lib.XMLDOCFormatter) {
             cycles = 0;
 
             text = residueString + text;
-
+            
             while (!endOfParsing) {
 
                 //empty text node or new lines
@@ -115,6 +116,8 @@ if (LabEG.Lib.XMLDOCFormatter) {
                         tabs += self.options.charsForTabs;
                     }
 
+                    lineNumber += 1;
+
                     self.onLog(tabs + "HTML comment: " + foundMatch[0]);
                     formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;
                     continue;
@@ -134,13 +137,14 @@ if (LabEG.Lib.XMLDOCFormatter) {
                     if (foundMatch[0].match(/^<\//)) {
 
                         level -= 1;
-                        
-                        if (levelsTags[level] !== foundMatch[0].match(/^<\/(.*?)[\s>]/)[1]) {
+                              
+                        //check on correct closed tag
+                        if (levelsTags[level].tag !== foundMatch[0].match(/^<\/(.*?)[\s>]/)[1]) {
                             self.onWarning(
-                                    "Not corrected closed tag: " + 
-                                    levelsTags[level] +
+                                    "Not corrected closed tag: " +
+                                    levelsTags[level].lineNumber + ". " + levelsTags[level].tag +
                                     " - " +
-                                    foundMatch[0].match(/^<\/(.*?)[\s>]/)[1]
+                                    lineNumber + ". " + foundMatch[0].match(/^<\/(.*?)[\s>]/)[1]
                                     );
                         } else {
                             levelsTags[level] = null;
@@ -155,13 +159,19 @@ if (LabEG.Lib.XMLDOCFormatter) {
                     //level to up on tag <div class="">
                     if (!foundMatch[0].match(/^<[!\/]/) && !foundMatch[0].match(/\/>$/)) {
 
-                        levelsTags[level] = foundMatch[0].match(/^<(.*?)[\s>]/)[1];
+                        //save info about opened tag
+                        levelsTags[level] = {
+                            lineNumber: lineNumber,
+                            tag: foundMatch[0].match(/^<(.*?)[\s>]/)[1]
+                        };
 
                         //not need up increment, if tag not paired
-                        if (self.options.notPairedTags.indexOf(levelsTags[level]) === -1) {
+                        if (self.options.notPairedTags.indexOf(levelsTags[level].tag) === -1) {
                             level += 1;
                         }
                     }
+
+                    lineNumber += 1;
 
                     self.onLog(tabs + "Tag: " + foundMatch[0]);
                     formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;
@@ -180,6 +190,8 @@ if (LabEG.Lib.XMLDOCFormatter) {
                     for (i = 0; i < level; i += 1) {
                         tabs += self.options.charsForTabs;
                     }
+
+                    lineNumber += 1;
 
                     self.onLog(tabs + "Simple text: " + foundMatch[0]);
                     formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;

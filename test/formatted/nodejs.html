@@ -477,8 +477,7 @@
                             This document is split up into 3 sections. The first explains theparts of the API that you need to be aware of to use streams in yourprograms. If you never implement a streaming API yourself, you canstop there.
                         </p>
                         <p>
-                            The second section explains the parts of the API that you need to useif you implement your 
-                            own custom streams yourself. The API isdesigned to make this easy for you to do.
+                            The second section explains the parts of the API that you need to useif you implement your own custom streams yourself. The API isdesigned to make this easy for you to do.
                         </p>
                         <p>
                             The third section goes into more depth about how streams work,including some of the internal mechanisms and functions that youshould probably not modify unless you definitely know what you aredoing.
@@ -611,8 +610,7 @@
                                         resume()
                                     </code>
                                 </a>
-                                method to explicitly open t
-                                he flow.
+                                method to explicitly open the flow.
                             </li>
                             <li>
                                 Calling the 
@@ -1057,8 +1055,7 @@
                             <code>
                                 data
                             </code>
-                            events, switching out of flowing mode. Any data that becomesavailable w
-                            ill remain in the internal buffer.
+                            events, switching out of flowing mode. Any data that becomesavailable will remain in the internal buffer.
                         </p>
                         <pre>
                             <code class="javascript">
@@ -1272,8 +1269,7 @@
                         </p>
                         <pre>
                             <code class="javascript">
-                                var readable = getReadableStreamSomehow();var writable = fs.createWriteStream(&#39;file.txt&#39;);// All the data from read
-                                able goes into &#39;file.txt&#39;,// but only for the first secondreadable.pipe(writable);setTimeout(function() { console.log(&#39;stop writing to file.txt&#39;); readable.unpipe(writable); console.log(&#39;manually close the file stream&#39;); writable.end();}, 1000);
+                                var readable = getReadableStreamSomehow();var writable = fs.createWriteStream(&#39;file.txt&#39;);// All the data from readable goes into &#39;file.txt&#39;,// but only for the first secondreadable.pipe(writable);setTimeout(function() { console.log(&#39;stop writing to file.txt&#39;); readable.unpipe(writable); console.log(&#39;manually close the file stream&#39;); writable.end();}, 1000);
                             </code>
                         </pre>
                         <h4>
@@ -2087,8 +2083,7 @@
                         </p>
                         <pre>
                             <code class="javascript">
-                                var Readable = require(&#39;stream&#39;).Readable;var util = require(&#39;util&#39;);util.inherits(Counter, Readable);function Counter(opt) { Readable.call(this, opt); this._max = 1000000; this._index = 1;}Counter.prototype._read = function() { var i = this._index++; if (i &gt; this._max) this.push(null);
-                                else { var str = &#39;&#39; + i; var buf = new Buffer(str, &#39;ascii&#39;); this.push(buf); }};
+                                var Readable = require(&#39;stream&#39;).Readable;var util = require(&#39;util&#39;);util.inherits(Counter, Readable);function Counter(opt) { Readable.call(this, opt); this._max = 1000000; this._index = 1;}Counter.prototype._read = function() { var i = this._index++; if (i &gt; this._max) this.push(null); else { var str = &#39;&#39; + i; var buf = new Buffer(str, &#39;ascii&#39;); this.push(buf); }};
                             </code>
                         </pre>
                         <h4>
@@ -2549,8 +2544,7 @@
                             <code>
                                 encoding
                             </code>
-                            willindicate the sort of string that it is. This is to supportimplementations that have an optimized handling for certain str
-                            ingdata encodings. If you do not explicitly set the 
+                            willindicate the sort of string that it is. This is to supportimplementations that have an optimized handling for certain stringdata encodings. If you do not explicitly set the 
                             <code>
                                 decodeStrings
                             </code>
@@ -2762,8 +2756,7 @@
                             stream.
                         </p>
                         <p>
-                            There is no requirement that the output be the same size as the input,the same number of chunks, or arrive at the same time. For example, aHash stream will only ever have a s
-                            ingle chunk of output which isprovided when the input is ended. A zlib stream will produce outputthat is either much smaller or much larger than its input.
+                            There is no requirement that the output be the same size as the input,the same number of chunks, or arrive at the same time. For example, aHash stream will only ever have a single chunk of output which isprovided when the input is ended. A zlib stream will produce outputthat is either much smaller or much larger than its input.
                         </p>
                         <p>
                             Rather than implement the 
@@ -2938,8 +2931,7 @@
                             <code>
                                 Zlib
                             </code>
-                            compressionstream will store up some internal state so that it can optimallycompress the output. A
-                            t the end, however, it needs to do the best itcan with what is left, so that the data will be complete.
+                            compressionstream will store up some internal state so that it can optimallycompress the output. At the end, however, it needs to do the best itcan with what is left, so that the data will be complete.
                         </p>
                         <p>
                             In those cases, you can implement a 
@@ -3256,8 +3248,7 @@
                                 <code>
                                     &#39;data&#39;
                                 </code>
-                                events would start emitting immediately. If you needed to do someI/O to decide how to handle data, then you
-                                had to store the chunksin some kind of buffer so that they would not be lost.
+                                events would start emitting immediately. If you needed to do someI/O to decide how to handle data, then you had to store the chunksin some kind of buffer so that they would not be lost.
                             </li>
                             <li>
                                 The 
@@ -3448,8 +3439,7 @@
                         </p>
                         <pre>
                             <code class="javascript">
-                                var util = require(&#39;util&#39;);var StringDecoder = require(&#39;string_decoder&#39;).
-                                StringDecoder;var Transform = require(&#39;stream&#39;).Transform;util.inherits(JSONParseStream, Transform);// Gets \n-delimited JSON string data, and emits the parsed objectsfunction JSONParseStream() { if (!(this instanceof JSONParseStream)) return new JSONParseStream(); Transform.call(this, { readableObjectMode : true }); this._buffer = &#39;&#39;; this._decoder = new StringDecoder(&#39;utf8&#39;);}JSONParseStream.prototype._transform = function(chunk, encoding, cb) { this._buffer += this._decoder.write(chunk); // split on newlines var lines = this._buffer.split(/\r?\n/); // keep the last partial line buffered this._buffer = lines.pop(); for (var l = 0; l &lt; lines.length; l++) { var line = lines[l]; try { var obj = JSON.parse(line); } catch (er) { this.emit(&#39;error&#39;, er); return; } // push the parsed object out to the readable consumer this.push(obj); } cb();};JSONParseStream.prototype._flush = function(cb) { // Just handle any leftover var rem = this._buffer.trim(); if (rem) { try { var obj = JSON.parse(rem); } catch (er) { this.emit(&#39;error&#39;, er); return; } // push the parsed object out to the readable consumer this.push(obj); } cb();};
+                                var util = require(&#39;util&#39;);var StringDecoder = require(&#39;string_decoder&#39;).StringDecoder;var Transform = require(&#39;stream&#39;).Transform;util.inherits(JSONParseStream, Transform);// Gets \n-delimited JSON string data, and emits the parsed objectsfunction JSONParseStream() { if (!(this instanceof JSONParseStream)) return new JSONParseStream(); Transform.call(this, { readableObjectMode : true }); this._buffer = &#39;&#39;; this._decoder = new StringDecoder(&#39;utf8&#39;);}JSONParseStream.prototype._transform = function(chunk, encoding, cb) { this._buffer += this._decoder.write(chunk); // split on newlines var lines = this._buffer.split(/\r?\n/); // keep the last partial line buffered this._buffer = lines.pop(); for (var l = 0; l &lt; lines.length; l++) { var line = lines[l]; try { var obj = JSON.parse(line); } catch (er) { this.emit(&#39;error&#39;, er); return; } // push the parsed object out to the readable consumer this.push(obj); } cb();};JSONParseStream.prototype._flush = function(cb) { // Just handle any leftover var rem = this._buffer.trim(); if (rem) { try { var obj = JSON.parse(rem); } catch (er) { this.emit(&#39;error&#39;, er); return; } // push the parsed object out to the readable consumer this.push(obj); } cb();};
                             </code>
                         </pre>
                     </div>

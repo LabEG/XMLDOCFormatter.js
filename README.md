@@ -64,4 +64,4 @@ node xmldocformatter.js --source path/to/source.html --output path/to/output.htm
 - Using JSDoc for documentations,
 - OOP oriented,
 - All code checking by JSHint and JSLint,
-- Browserify, RequireJS, CommonJS, AMD compatibility.
+- Support Browserify, RequireJS, CommonJS and AMD.

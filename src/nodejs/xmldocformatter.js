@@ -15,23 +15,27 @@
 
     var filesForRead = [args.source];
     var filesForWrite = [args.output || args.source];
-    var streambuffer = args.streambuffer || 4096;
+    var streambuffer = args.streambuffer || null;
 
     var formatFile = function (fileForRead, fileForWrite) {
-        
+
         var level = 0;
         var residueString = "";
         var resultOfFormatt = "";
-        
+
         var xmldocformatter = new XMLDOCFormatter();
-        
+
+        if (typeof args.notpairedtags === "string") {
+            xmldocformatter.options.notPairedTags = args.notpairedtags.replace(/\s+/g, "").split(",");
+        }
+
         //console.log("Begin formatting: ", fileForRead, fileForWrite);
 
         var fileReadStream = fs.createReadStream(fileForRead, {encoding: 'utf8', autoClose: true, highWaterMark: streambuffer});
         var fileWriteStream = fs.createWriteStream(fileForWrite + ".tmp", {encoding: 'utf8', autoClose: true});
 
         fileReadStream.on('data', function (chunk) {
-            //console.log("Writing chunk on disk.");
+//            console.log("Writing chunk on disk.");
             fileWriteStream.write(xmldocformatter.format(chunk));
         });
 
@@ -40,7 +44,7 @@
             fs.rename(fileForWrite + ".tmp", fileForWrite);
             fileWriteStream.end();
         });
-        
+
     };
 
     var i = 0;
