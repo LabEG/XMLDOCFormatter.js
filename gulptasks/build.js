@@ -13,26 +13,36 @@
 
     gulp.task('js-cs', function () {
         gulp.src('./src/**/*.js')
-                .pipe(jshint())
-                .pipe(jslint.run({}));
+            .pipe(jshint())
+            .pipe(jslint.run({}));
     });
 
     gulp.task('web-js', function () {
         gulp.src('./src/web/xmldocformatter.js')
-                .pipe(concat('xmldocformatter.js'))
-                .pipe(gulp.dest('./build/web/'))
-                .pipe(uglify())
-                .pipe(rename({suffix: ".min"}))
-                .pipe(gulp.dest('./build/web/'));
+            .pipe(concat('xmldocformatter.js'))
+            .pipe(gulp.dest('./build/web/'))
+            .pipe(uglify())
+            .on('error', function (error) {
+                console.log(error.toString());
+                this.emit('end');
+                }
+            )
+            .pipe(rename({ suffix: ".min" }))
+            .pipe(gulp.dest('./build/web/'));
     });
 
     gulp.task('node-js', function () {
         gulp.src('./src/nodejs/xmldocformatter.js')
-                .pipe(browserify())
-                .pipe(gulp.dest('./build/nodejs/'))
-                .pipe(uglify())
-                .pipe(rename({suffix: ".min"}))
-                .pipe(gulp.dest('./build/nodejs/'));
+            .pipe(browserify())
+            .pipe(gulp.dest('./build/nodejs/'))
+            .pipe(uglify())
+            .on('error', function (error) {
+                console.log(error.toString());
+                this.emit('end');
+                }
+            )
+            .pipe(rename({ suffix: ".min" }))
+            .pipe(gulp.dest('./build/nodejs/'));
     });
 
     gulp.task('watch', ['web-js', 'node-js'], function () {
@@ -41,4 +51,4 @@
 
     gulp.task('release', ['web-js', 'node-js']);
 
-}());
+} ());

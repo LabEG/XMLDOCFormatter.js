@@ -1,43 +1,45 @@
 {
-    "name": "xmldocformatter",
-    "version": "0.0.1",
-    "description": "Tools for formatting XML documents, like as XML, HTML, JSP, on webpage and Node.js.",
-    "author": "Evgeny Labutin aka LabEG <labeg@mail.ru>",
-    "main": "src/web/xmldocformatter.js",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/LabEG/XMLDOCFormatter.js"
-    },
-    "bugs": {
-        "url": "https://github.com/LabEG/XMLDOCFormatter.js/issues"
-    },
-    "directories": {
-        "test": "test"
-    },
-    "scripts": {
-        "test": "gulp test"
-    },
-    "keywords": [
-        "prettity",
-        "formatter",
-        "xml",
-        "html",
-        "php"
-    ],
-    "analyze": true,
-    "license": "ISC",
-    "dependencies": {
-        "yargs": "^3.6.0"
-    },
-    "devDependencies": {
-        "gulp": "^3.8.11",
-        "gulp-browserify": "^0.5.1",
-        "gulp-concat": "^2.5.2",
-        "gulp-include": "^1.1.1",
-        "gulp-jshint": "^1.9.2",
-        "gulp-jslint-simple": "^1.0.0",
-        "gulp-rename": "^1.2.0",
-        "gulp-uglify": "^1.1.0",
-        "require-dir": "^0.1.0"
-    }
+  "name": "xmldocformatter",
+  "version": "0.0.1",
+  "description": "Tools for formatting XML documents, like as XML, HTML, JSP, on webpage and Node.js.",
+  "author": "Evgeny Labutin aka LabEG <labeg@mail.ru>",
+  "main": "src/web/xmldocformatter.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LabEG/XMLDOCFormatter.js"
+  },
+  "bugs": {
+    "url": "https://github.com/LabEG/XMLDOCFormatter.js/issues"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "keywords": [
+    "prettity",
+    "formatter",
+    "xml",
+    "html",
+    "php"
+  ],
+  "analyze": true,
+  "license": "ISC",
+  "dependencies": {
+    "csscomb": "^3.0.4",
+    "js-beautify": "^1.5.5",
+    "yargs": "^3.6.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-browserify": "^0.5.1",
+    "gulp-concat": "^2.5.2",
+    "gulp-include": "^1.1.1",
+    "gulp-jshint": "^1.9.2",
+    "gulp-jslint-simple": "^1.0.0",
+    "gulp-rename": "^1.2.0",
+    "gulp-uglify": "^1.1.0",
+    "require-dir": "^0.1.0"
+  }
 }

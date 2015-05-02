@@ -5,7 +5,7 @@
     var gulp = require('gulp');
     
     var requireDir = require('require-dir');
-    var dir = requireDir('./gulptasks');
+    requireDir('./gulptasks');
 
     gulp.task('default', ['release']);
     

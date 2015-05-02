@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-/*global module*/
+/*global module, define*/
 
 var LabEG = this.LabEG || {};
 LabEG.Lib = LabEG.Lib || {};
@@ -31,8 +31,16 @@ if (LabEG.Lib.XMLDOCFormatter) {
         this.options = {
             charsBetweenTags: "\r\n",
             charsForTabs: "    ",
-            notPairedTags: "meta|link|img|br|input".split("|"),
+            notPairedTags: "meta|link|img|br|input|param|hr|wbr".split("|"),
             isMultilineAttributes: false
+        };
+
+        this.logLevels = {
+            none: 0,
+            debug: 1,
+            verbose: 2,
+            errors: 4,
+            warnings: 8
         };
 
         /**
@@ -41,7 +49,7 @@ if (LabEG.Lib.XMLDOCFormatter) {
          * @returns {undefined}
          */
         this.onLog = function (message) {
-//            console.log("XMLFormatter log: ", message);
+            console.log("XMLFormatter log: ", message);
         };
 
         /**
@@ -50,7 +58,7 @@ if (LabEG.Lib.XMLDOCFormatter) {
          * @returns {undefined}
          */
         this.onWarning = function (message) {
-            console.warn("XMLFormatter warning: ", message);
+            console.log("XMLFormatter warning: ", message);
         };
 
         /**
@@ -59,7 +67,25 @@ if (LabEG.Lib.XMLDOCFormatter) {
          * @returns {undefined}
          */
         this.onError = function (message) {
-            console.error("XMLFormatter error: ", message);
+            console.log("XMLFormatter error: ", message);
+        };
+
+        /**
+         * @description Style events.
+         * @param {string} code Error message.
+         * @returns {undefined}
+         */
+        this.onStyle = function (code) {
+            return code;
+        };
+        
+        /**
+         * @description Scripts events.
+         * @param {string} code Error message.
+         * @returns {undefined}
+         */
+        this.onScript = function (code) {
+            return code;
         };
 
         var residueString = "";
@@ -71,14 +97,15 @@ if (LabEG.Lib.XMLDOCFormatter) {
         var cycles = 0;
         var tabs = "";
         var levelsTags = [];
+        var lineNumber = 1;
 
         var i = 0; //just iterator
 
-        var regexps = {
+        this.regexps = {
             Comment: /^<!--.*?-->/, // <!-- comment -->
             Tag: /^<[\s\S]*?>/,
             Text: /^[^<]+/, // just text
-            Empty: /^(\r|\n|\r\n|\s|\t)+/ // new lines and spaces
+            Empty: /^(\s)+/ // new lines and spaces
         };
 
         /**
@@ -95,9 +122,19 @@ if (LabEG.Lib.XMLDOCFormatter) {
             text = residueString + text;
 
             while (!endOfParsing) {
-
+                
+                //style, scipts block
+                if ((levelsTags[level - 1] !== undefined) && (['style', 'script'].indexOf(levelsTags[level - 1].tag) !== -1)) {
+                    foundMatch = text.match(/^([\s\S]*?)<\/[\s]*?(script|style)>/);
+                    if (foundMatch) {
+                        text = text.substring(foundMatch[1].length, text.length);
+                        console.log(foundMatch[1]);
+                        self.onLog(tabs + );
+                    }
+                }
+                
                 //empty text node or new lines
-                foundMatch = text.match(regexps.Empty);
+                foundMatch = text.match(self.regexps.Empty);
                 if (foundMatch) {
                     text = text.substring(foundMatch[0].length, text.length);
 
@@ -106,7 +143,7 @@ if (LabEG.Lib.XMLDOCFormatter) {
                 }
 
                 //html comment
-                foundMatch = text.match(regexps.Comment);
+                foundMatch = text.match(self.regexps.Comment);
                 if (foundMatch) {
                     text = text.substring(foundMatch[0].length, text.length);
 
@@ -115,33 +152,36 @@ if (LabEG.Lib.XMLDOCFormatter) {
                         tabs += self.options.charsForTabs;
                     }
 
+                    lineNumber += 1;
+
                     self.onLog(tabs + "HTML comment: " + foundMatch[0]);
                     formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;
                     continue;
                 }
 
                 //tag
-                foundMatch = text.match(regexps.Tag);
+                foundMatch = text.match(self.regexps.Tag);
                 if (foundMatch) {
                     text = text.substring(foundMatch[0].length, text.length);
                     foundMatch[0] = foundMatch[0]
-                            .replace(/\r|\n|\r\n/g, "") //remove new lines
-                            .replace(/\s{2,}/g, " ")
-                            .replace(/^<\s/g, "<")
-                            .replace(/\s>$/g, ">");
+                        .replace(/\r|\n|\r\n/g, "") //remove new lines
+                        .replace(/\s{2,}/g, " ")
+                        .replace(/^<\s+/g, "<")
+                        .replace(/\s+>$/g, ">");
 
                     //level to down on tag </div>
                     if (foundMatch[0].match(/^<\//)) {
 
                         level -= 1;
 
-                        if (levelsTags[level] !== foundMatch[0].match(/^<\/(.*?)[\s>]/)[1]) {
+                        //check on correct closed tag
+                        if (levelsTags[level].tag !== foundMatch[0].match(/^<\/(.*?)[\s>]/)[1]) {
                             self.onWarning(
-                                    "Not corrected closed tag: ",
-                                    levelsTags[level],
-                                    " - ",
-                                    foundMatch[0].match(/^<\/(.*?)[\s>]/)[1]
-                                    );
+                                "Not corrected closed tag: " +
+                                levelsTags[level].lineNumber + ". " + levelsTags[level].tag +
+                                " - " +
+                                lineNumber + ". " + foundMatch[0].match(/^<\/(.*?)[\s>]/)[1]
+                                );
                         } else {
                             levelsTags[level] = null;
                         }
@@ -155,13 +195,19 @@ if (LabEG.Lib.XMLDOCFormatter) {
                     //level to up on tag <div class="">
                     if (!foundMatch[0].match(/^<[!\/]/) && !foundMatch[0].match(/\/>$/)) {
 
-                        levelsTags[level] = foundMatch[0].match(/^<(.*?)[\s>]/)[1];
-
+                        //save info about opened tag
+                        levelsTags[level] = {
+                            lineNumber: lineNumber,
+                            tag: foundMatch[0].match(/^<(.*?)[\s>]/)[1]
+                        };
+                        
                         //not need up increment, if tag not paired
-                        if (self.options.notPairedTags.indexOf(levelsTags[level]) === -1) {
+                        if (self.options.notPairedTags.indexOf(levelsTags[level].tag) === -1) {
                             level += 1;
                         }
                     }
+
+                    lineNumber += 1;
 
                     self.onLog(tabs + "Tag: " + foundMatch[0]);
                     formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;
@@ -169,17 +215,19 @@ if (LabEG.Lib.XMLDOCFormatter) {
                 }
 
                 //simple text
-                foundMatch = text.match(regexps.Text);
+                foundMatch = text.match(self.regexps.Text);
                 if (foundMatch) {
                     text = text.substring(foundMatch[0].length, text.length);
                     foundMatch[0] = foundMatch[0]
-                            .replace(/\r|\n|\r\n/g, "")
-                            .replace(/\s{2,}/g, " ");
+                        .replace(/\r|\n|\r\n/g, "")
+                        .replace(/\s{2,}/g, " ");
 
                     tabs = "";
                     for (i = 0; i < level; i += 1) {
                         tabs += self.options.charsForTabs;
                     }
+
+                    lineNumber += 1;
 
                     self.onLog(tabs + "Simple text: " + foundMatch[0]);
                     formattedText += tabs + foundMatch[0] + self.options.charsBetweenTags;
@@ -232,4 +280,4 @@ if (LabEG.Lib.XMLDOCFormatter) {
         });
     }
 
-}());
+} ());
