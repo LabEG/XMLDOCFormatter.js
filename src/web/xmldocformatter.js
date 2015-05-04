@@ -49,7 +49,7 @@ if (LabEG.Lib.XMLDOCFormatter) {
          * @returns {undefined}
          */
         this.onLog = function (message) {
-            console.log("XMLFormatter log: ", message);
+            //            console.log("XMLFormatter log: ", message);
         };
 
         /**
@@ -126,7 +126,7 @@ if (LabEG.Lib.XMLDOCFormatter) {
                 //style, scipts block
                 if ((levelsTags[level - 1] !== undefined) && (['style', 'script'].indexOf(levelsTags[level - 1].tag) !== -1)) {
                     foundMatch = text.match(/^([\s\S]*?)<\/[\s]*?(script|style)>/);
-                    
+
                     if (foundMatch && foundMatch[1] && (foundMatch[1] !== "")) {
                         text = text.substring(foundMatch[1].length, text.length);
 
@@ -143,7 +143,12 @@ if (LabEG.Lib.XMLDOCFormatter) {
                             tabs += self.options.charsForTabs;
                         }
 
+                        foundMatch[1] = self.options.charsBetweenTags +
+                            tabs +
+                            foundMatch[1].replace(/\r\n|\r|\n/g, "\r\n" + tabs) +
+                            self.options.charsBetweenTags;
                         formattedText += foundMatch[1] + self.options.charsBetweenTags;
+                        lineNumber += foundMatch[1].split(/\r\n|\r|\n/).length;
 
                         self.onLog(tabs + "Style or Script code: \r\n" + foundMatch[1]);
                     }

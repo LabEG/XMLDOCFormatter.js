@@ -12,6 +12,8 @@
     var fs = require("fs");
     var args = require("./arguments.js");
     var XMLDOCFormatter = require("../web/xmldocformatter.js");
+    var JSBeautify = require("js-beautify");
+    var Comb = require('csscomb');
 
     var filesForRead = [args.source];
     var filesForWrite = [args.output || args.source];
@@ -20,6 +22,15 @@
     var formatFile = function (fileForRead, fileForWrite) {
 
         var xmldocformatter = new XMLDOCFormatter();
+        var comb = new Comb('csscomb');
+
+        xmldocformatter.onScript = function (code) {
+            return JSBeautify(code, { indent_size: 4, indent_char: " " });
+        };
+
+        xmldocformatter.onStyle = function (code) {
+            return comb.processString(JSBeautify.css(code, { indent_size: 4, indent_char: " " }));
+        };
 
         if (typeof args.notpairedtags === "string") {
             xmldocformatter.options.notPairedTags = args.notpairedtags.replace(/\s+/g, "").split(",");
@@ -31,12 +42,12 @@
         var fileWriteStream = fs.createWriteStream(fileForWrite + ".tmp", { encoding: 'utf8', autoClose: true });
 
         fileReadStream.on('data', function (chunk) {
-            //console.log("Writing chunk on disk.");
+            //            console.log("Writing chunk on disk.");
             fileWriteStream.write(xmldocformatter.format(chunk));
         });
 
         fileReadStream.on('end', function (chunk) {
-            //console.log('End stream.');
+            //            console.log('End stream.');
             fs.rename(fileForWrite + ".tmp", fileForWrite);
             fileWriteStream.end();
         });

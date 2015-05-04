@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Tools for formatting XML documents, like as XML, HTML, JSP, on webpage and Node.js.",
   "author": "Evgeny Labutin aka LabEG <labeg@mail.ru>",
-  "main": "src/web/xmldocformatter.js",
+  "main": "src/nodejs/xmldocformatter.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/LabEG/XMLDOCFormatter.js"
@@ -27,6 +27,7 @@
   "analyze": true,
   "license": "ISC",
   "dependencies": {
+    "commander": "^2.8.1",
     "csscomb": "^3.0.4",
     "js-beautify": "^1.5.5",
     "yargs": "^3.6.0"

@@ -37,6 +37,16 @@
         });
     });
     
-    gulp.task('test', ['test-1', 'test-2', 'test-3']);
+    gulp.task('test-4', function () {
+        exec("node src/nodejs/xmldocformatter.js" +
+                " --source test/unformatted/google.html" + 
+                " --output test/formatted/google.html",
+        function (err, data) {
+            console.log(err);
+            console.log(data.toString());
+        });
+    });
+    
+    gulp.task('test', ['test-1', 'test-2', 'test-3', 'test-4']);
     
 }());

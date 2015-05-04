@@ -46,14 +46,12 @@
         <!-- DocPad Styles + Our Own -->
         <link rel="stylesheet" href="/assets/site.min.css" />
         <script type="text/javascript">
-var _gaq = _gaq || [];
-          _gaq.push(
-            ['_setAccount', 'UA-43068565-1'],
-            ['_setDomainName', 'codewinds.com'],
-            ['_setSiteSpeedSampleRate', 100],
-            ['_trackPageview']
-          );
-        
+
+            var _gaq = _gaq || [];
+            _gaq.push(
+                ['_setAccount', 'UA-43068565-1'], ['_setDomainName', 'codewinds.com'], ['_setSiteSpeedSampleRate', 100], ['_trackPageview']
+            );
+
         </script>
         <!-- Google Analytics setup -->
     </head>
@@ -1111,17 +1109,19 @@ var _gaq = _gaq || [];
                     </div>
                     <script type="text/javascript">
 
-                var disqus_shortname = 'codewinds'; // required
-                var disqus_identifier = 'blog-2013-08-04-nodejs-readable-streams';
-                var disqus_title = 'Reading text and binary data with Node.js readable streams';
-                var disqus_url = 'http://codewinds.com/blog/2013-08-04-nodejs-readable-streams.html';
+                        var disqus_shortname = 'codewinds'; // required
+                        var disqus_identifier = 'blog-2013-08-04-nodejs-readable-streams';
+                        var disqus_title = 'Reading text and binary data with Node.js readable streams';
+                        var disqus_url = 'http://codewinds.com/blog/2013-08-04-nodejs-readable-streams.html';
+                        
+                        (function() {
+                            var dsq = document.createElement('script');
+                            dsq.type = 'text/javascript';
+                            dsq.async = true;
+                            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                        })();
 
-                (function() {
-                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                })();
-        
                     </script>
                 </div>
             </div>
@@ -1235,28 +1235,31 @@ var _gaq = _gaq || [];
             <!-- DocPad Scripts + Our Own -->
             <script type="text/javascript">
 
-  window['addSubscribeForm'] = true;
+                window['addSubscribeForm'] = true;
 
             </script>
             <script type="text/javascript">
 
-            (function() {
-              var ga = document.createElement('script');     ga.type = 'text/javascript'; ga.async = true;
-              ga.src = ('https:'   == document.location.protocol ? 'https://ssl'   : 'http://www') + '.google-analytics.com/ga.js';
-              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-            })();
-          
+                (function() {
+                    var ga = document.createElement('script');
+                    ga.type = 'text/javascript';
+                    ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    var s = document.getElementsByTagName('script')[0];
+                    s.parentNode.insertBefore(ga, s);
+                })();
+
             </script>
             <!-- GA must be before jQuery.scrollDepth -->
             <!-- google remarketing begin -->
             <script type="text/javascript">
 
-            /* <![CDATA[ */
-            var google_conversion_id = 986992179;
-            var google_custom_params = window.google_tag_params;
-            var google_remarketing_only = true;
-            /* ]]> */
-          
+                /* <![CDATA[ */
+                var google_conversion_id = 986992179;
+                var google_custom_params = window.google_tag_params;
+                var google_remarketing_only = true;
+                /* ]]> */
+
             </script>
             <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
             </script>
@@ -1270,14 +1273,14 @@ var _gaq = _gaq || [];
             </script>
             <script type="text/javascript">
 
-            var addthis_config = {
-              ui_click: false,
-              data_track_clickback: false,
-              data_ga_tracker: 'UA-43068565-1',
-              data_ga_property: 'UA-43068565-1',
-              data_ga_social : true
-            };
-          
+                var addthis_config = {
+                    ui_click: false,
+                    data_track_clickback: false,
+                    data_ga_tracker: 'UA-43068565-1',
+                    data_ga_property: 'UA-43068565-1',
+                    data_ga_social: true
+                };
+
             </script>
             <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5203de1715e63403">
             </script>

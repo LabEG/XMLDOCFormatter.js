@@ -49,7 +49,7 @@ if (LabEG.Lib.XMLDOCFormatter) {
          * @returns {undefined}
          */
         this.onLog = function (message) {
-            console.log("XMLFormatter log: ", message);
+            //            console.log("XMLFormatter log: ", message);
         };
 
         /**
@@ -126,10 +126,31 @@ if (LabEG.Lib.XMLDOCFormatter) {
                 //style, scipts block
                 if ((levelsTags[level - 1] !== undefined) && (['style', 'script'].indexOf(levelsTags[level - 1].tag) !== -1)) {
                     foundMatch = text.match(/^([\s\S]*?)<\/[\s]*?(script|style)>/);
-                    if (foundMatch) {
+
+                    if (foundMatch && foundMatch[1] && (foundMatch[1] !== "")) {
                         text = text.substring(foundMatch[1].length, text.length);
-                        console.log(foundMatch[1]);
-                        self.onLog(tabs + );
+
+                        if (levelsTags[level - 1].tag === "script") {
+                            foundMatch[1] = self.onScript(foundMatch[1]);
+                        }
+
+                        if (levelsTags[level - 1].tag === "style") {
+                            foundMatch[1] = self.onStyle(foundMatch[1]);
+                        }
+
+                        tabs = "";
+                        for (i = 0; i < level; i += 1) {
+                            tabs += self.options.charsForTabs;
+                        }
+
+                        foundMatch[1] = self.options.charsBetweenTags +
+                            tabs +
+                            foundMatch[1].replace(/\r\n|\r|\n/g, "\r\n" + tabs) +
+                            self.options.charsBetweenTags;
+                        formattedText += foundMatch[1] + self.options.charsBetweenTags;
+                        lineNumber += foundMatch[1].split(/\r\n|\r|\n/).length;
+
+                        self.onLog(tabs + "Style or Script code: \r\n" + foundMatch[1]);
                     }
                 }
                 
@@ -139,9 +160,8 @@ if (LabEG.Lib.XMLDOCFormatter) {
                     text = text.substring(foundMatch[0].length, text.length);
 
                     self.onLog(tabs + "Empty text node or new line.");
-                    continue;
                 }
-
+                
                 //html comment
                 foundMatch = text.match(self.regexps.Comment);
                 if (foundMatch) {
@@ -216,7 +236,11 @@ if (LabEG.Lib.XMLDOCFormatter) {
 
                 //simple text
                 foundMatch = text.match(self.regexps.Text);
-                if (foundMatch) {
+                if (foundMatch &&
+                    (levelsTags[level - 1] !== undefined) &&
+                    (['style', 'script'].indexOf(levelsTags[level - 1].tag) === -1) // for stream, if script not close in chunk
+                    ) {
+
                     text = text.substring(foundMatch[0].length, text.length);
                     foundMatch[0] = foundMatch[0]
                         .replace(/\r|\n|\r\n/g, "")
